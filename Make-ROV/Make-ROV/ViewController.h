@@ -8,7 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ViewController : NSViewController
+@interface ViewController : NSViewController{
+	IBOutlet NSTextField *_welcomeLabel;
+	IBOutlet NSButton *_welcomeContinuebtn;
+	
+	
+}
+-(void)deleteAllViews;
 
 
 @end
