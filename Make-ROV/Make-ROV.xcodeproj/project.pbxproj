@@ -13,6 +13,8 @@
 		49C930451A91A3D800857B1A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49C930441A91A3D800857B1A /* Images.xcassets */; };
 		49C930481A91A3D800857B1A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49C930461A91A3D800857B1A /* Main.storyboard */; };
 		49C930541A91A3D900857B1A /* Make_ROVTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C930531A91A3D900857B1A /* Make_ROVTests.m */; };
+		49C9305E1A92374D00857B1A /* res in Resources */ = {isa = PBXBuildFile; fileRef = 49C9305D1A92374D00857B1A /* res */; };
+		49C930611A92413700857B1A /* welcomeImageClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C930601A92413700857B1A /* welcomeImageClass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,9 @@
 		49C9304D1A91A3D900857B1A /* Make-ROVTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Make-ROVTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C930521A91A3D900857B1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49C930531A91A3D900857B1A /* Make_ROVTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Make_ROVTests.m; sourceTree = "<group>"; };
+		49C9305D1A92374D00857B1A /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
+		49C9305F1A92413700857B1A /* welcomeImageClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = welcomeImageClass.h; path = "Make-ROV/welcomeImageClass.h"; sourceTree = "<group>"; };
+		49C930601A92413700857B1A /* welcomeImageClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = welcomeImageClass.m; path = "Make-ROV/welcomeImageClass.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +66,8 @@
 		49C9302E1A91A3D800857B1A = {
 			isa = PBXGroup;
 			children = (
+				49C9305F1A92413700857B1A /* welcomeImageClass.h */,
+				49C930601A92413700857B1A /* welcomeImageClass.m */,
 				49C930391A91A3D800857B1A /* Make-ROV */,
 				49C930501A91A3D900857B1A /* Make-ROVTests */,
 				49C930381A91A3D800857B1A /* Products */,
@@ -79,6 +86,7 @@
 		49C930391A91A3D800857B1A /* Make-ROV */ = {
 			isa = PBXGroup;
 			children = (
+				49C9305D1A92374D00857B1A /* res */,
 				49C9303C1A91A3D800857B1A /* AppDelegate.h */,
 				49C9303D1A91A3D800857B1A /* AppDelegate.m */,
 				49C930411A91A3D800857B1A /* ViewController.h */,
@@ -196,6 +204,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49C9305E1A92374D00857B1A /* res in Resources */,
 				49C930451A91A3D800857B1A /* Images.xcassets in Resources */,
 				49C930481A91A3D800857B1A /* Main.storyboard in Resources */,
 			);
@@ -218,6 +227,7 @@
 				49C930431A91A3D800857B1A /* ViewController.m in Sources */,
 				49C930401A91A3D800857B1A /* main.m in Sources */,
 				49C9303E1A91A3D800857B1A /* AppDelegate.m in Sources */,
+				49C930611A92413700857B1A /* welcomeImageClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

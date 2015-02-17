@@ -15,11 +15,16 @@
 	
 	// Do any additional setup after loading the view.
 	
-	NSColor *backgroundColor = colorFromRGB(179,229,252);
+	NSColor *backgroundColor = colorFromRGB(179,229,252); //Draws the background
 	[self.view setWantsLayer:YES];
 	[self.view.layer setBackgroundColor: [backgroundColor CGColor]];
 	
-	int _screenWidth = 1024;
+	
+	
+	
+	
+	
+	int _screenWidth = 1024;//Draws the "Make-ROV" lable
 	_welcomeLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(0, 230, _screenWidth, 100)];
 	[_welcomeLabel setStringValue:@"Make-ROV"];
 	[_welcomeLabel setTextColor: [NSColor blackColor]];
@@ -33,7 +38,7 @@
 	
 	
 	_welcomeContinuebtn = [[NSButton alloc] initWithFrame:NSMakeRect(410, 100, 200, 60)];
-	[_welcomeContinuebtn setTitle:@"Getting Started"];
+	[_welcomeContinuebtn setTitle:@"Get Started"];//Draws the continue btn
 	[_welcomeContinuebtn setButtonType:NSMomentaryPushInButton];
 	[_welcomeContinuebtn setBezelStyle:NSRoundedBezelStyle];
 	[_welcomeContinuebtn setFont: [NSFont systemFontOfSize:20]];

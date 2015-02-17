@@ -12,6 +12,8 @@
 	IBOutlet NSTextField *_welcomeLabel;
 	IBOutlet NSButton *_welcomeContinuebtn;
 	
+	NSImage *_welcomeImage;
+	IBOutlet NSImageView *_welcomeImageView;
 	
 }
 -(void)deleteAllViews;
