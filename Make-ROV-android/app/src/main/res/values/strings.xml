@@ -6,10 +6,19 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="features_array">
-        <item>Basic ROV Information</item>
+        <item>\n\n\nBasic ROV Information\n</item>
         <item>Multi Motor Allocation</item>
         <item>Sensor Initialization</item>
         <item>Payload Tools Allocation</item>
     </string-array>
+
+    <string name="title_activity_multi_motor_allocation">Multi Motor Allocation</string>
+    <string name="motorIntroduction">\t\t\tMulti Motor Allocation lets you customise the motion of the system.
+         Customize your own allocation or select one of the template to continue.</string>
+
+    <string name="title_activity_edit_motor_allocation_profiles">Edit</string>
+
+    <string name="editMotorIntroduction">\t\t\tDue to the differences of Motor Allocations, we need to know which
+        motors need to be turned on in which motions. Here are the movements you\'re required to configure.</string>
 
 </resources>

@@ -16,6 +16,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MultiMotorAllocationActivity"
+            android:label="@string/title_activity_multi_motor_allocation"
+            android:parentActivityName=".BasicInformationActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rov.pcms.make_rov.BasicInformationActivity" />
+        </activity>
+        <activity
+            android:name=".EditMotorAllocationProfiles"
+            android:label="@string/title_activity_edit_motor_allocation_profiles"
+            android:parentActivityName=".MultiMotorAllocationActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rov.pcms.make_rov.MultiMotorAllocationActivity" />
+        </activity>
     </application>
 
 </manifest>

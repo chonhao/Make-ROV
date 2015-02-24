@@ -4,6 +4,7 @@
     <color name="primaryColorDark">#303f9f</color>
     <color name="accentColor">#9c27b0</color>
     <color name="navBackgroundColor">#C5CAE9</color>
+    <color name="motor_act_primaryColor">#03A9F4</color>
 
 
 </resources>

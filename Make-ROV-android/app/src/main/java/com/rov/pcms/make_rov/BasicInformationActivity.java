@@ -3,6 +3,7 @@ package com.rov.pcms.make_rov;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -43,6 +45,10 @@ public class BasicInformationActivity extends ActionBarActivity {
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar2);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         drawerList = (ListView)findViewById(R.id.left_drawer);
         myAdapter=new MyAdapter(this);
@@ -50,9 +56,9 @@ public class BasicInformationActivity extends ActionBarActivity {
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(BasicInformationActivity.this, Long.toString(id), Toast.LENGTH_SHORT).show();
-                if (id == 0) {
-//                    startActivity(new Intent(BasicInformationActivity.this, SubActivity.class));
+//                Toast.makeText(BasicInformationActivity.this, Long.toString(id), Toast.LENGTH_SHORT).show();
+                if (id == 1) {
+                    startActivity(new Intent(BasicInformationActivity.this, MultiMotorAllocationActivity.class));
                 }
                 drawerLayout.closeDrawer(drawerList);
             }
@@ -70,17 +76,16 @@ public class BasicInformationActivity extends ActionBarActivity {
             }
         };
         drawerLayout.setDrawerListener(drawerListener);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //------------------components init-------------------------------------
         rovNameEditText = (EditText)findViewById(R.id.rovNameEditText);
 
 //------------------UI setup completed----------------------------------
 //------------------Additional setup------------------------------------
         //TODO: make a dialog when sd card is not mounting
+        //TODO: open the drawer automatically if the user haven't learn the usage of drawer
         SharedPreferences rovName = getSharedPreferences(ROV_BASIC_INFORMATION,MODE_PRIVATE);
         rovNameEditText.setText(rovName.getString(ROV_NAME,""));
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 //------------------Component listeners---------------------------------
         rovNameEditText.addTextChangedListener(new TextWatcher() {
             //when the rov edit text changes, save the data to shared preference
@@ -92,8 +97,7 @@ public class BasicInformationActivity extends ActionBarActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 SharedPreferences rovName = getSharedPreferences(ROV_BASIC_INFORMATION,MODE_PRIVATE);
                 SharedPreferences.Editor editor = rovName.edit();
-                editor.putString(ROV_NAME,rovNameEditText.getText().toString());
-                editor.commit();
+                editor.putString(ROV_NAME,rovNameEditText.getText().toString()).apply();
             }
             @Override
             public void afterTextChanged(Editable s) {
@@ -108,7 +112,6 @@ public class BasicInformationActivity extends ActionBarActivity {
         drawerListener.syncState();
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -134,6 +137,12 @@ public class BasicInformationActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        drawerListener.onConfigurationChanged(newConfig);
+        super.onConfigurationChanged(newConfig);
     }
 
     class MyAdapter extends BaseAdapter {
