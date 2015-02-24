@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Make-ROV</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="features_array">
+        <item>Basic ROV Information</item>
+        <item>Multi Motor Allocation</item>
+        <item>Sensor Initialization</item>
+        <item>Payload Tools Allocation</item>
+    </string-array>
+
+</resources>

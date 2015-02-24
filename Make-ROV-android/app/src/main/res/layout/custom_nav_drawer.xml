@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="168.75dp"-->
+    <!--android:background="@color/accentColor"-->
+    <!--android:id="@+id/ColorView"-->
+    <!--/>-->
+
+
+
+    <TextView
+        android:id="@+id/motorTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:background="?android:attr/activatedBackgroundIndicator"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:text="Multi Motor Allocation"/>
+    <!--<TextView-->
+    <!--android:id="@+id/sensorTextView"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:paddingLeft="16dp"-->
+    <!--android:paddingRight="16dp"-->
+    <!--android:textColor="@android:color/black"-->
+    <!--android:background="?android:attr/activatedBackgroundIndicator"-->
+    <!--android:minHeight="?android:attr/listPreferredItemHeightSmall"-->
+    <!--android:text="Sensor Initialization"/>-->
+    <!--<TextView-->
+    <!--android:id="@+id/payloadTextField"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:paddingLeft="16dp"-->
+    <!--android:paddingRight="16dp"-->
+    <!--android:textColor="@android:color/black"-->
+    <!--android:background="?android:attr/activatedBackgroundIndicator"-->
+    <!--android:minHeight="?android:attr/listPreferredItemHeightSmall"-->
+    <!--android:text="Payload Tools Allocation"/>-->
+
+</LinearLayout>
