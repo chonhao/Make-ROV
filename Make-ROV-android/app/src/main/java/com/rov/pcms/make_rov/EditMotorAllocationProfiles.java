@@ -2,8 +2,10 @@ package com.rov.pcms.make_rov;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,6 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 import static com.rov.pcms.make_rov.R.id.editMotorForwardBtn;
 import static com.rov.pcms.make_rov.R.id.outlet1StatusBtn;
@@ -39,7 +44,11 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
     private static final String EDIT_DOWNWARD = "edit-downward";
 //---------------------Additional values--------------------------------------
     private int i;
+    private String prefrenceName;
     private String fileName;
+    private int currentMovement;
+    private String currentMovementString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,19 +90,25 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
             "FORWARD","BACKWARD","LEFT TURN","RIGHT TURN","UPWARD","DOWNWARD"
         };
         Bundle bundle = getIntent().getExtras();
-        fileName = bundle.getString(MultiMotorAllocationActivity.FILE_NAME);
+        prefrenceName = bundle.getString(MultiMotorAllocationActivity.FILE_NAME);
         fileName += ".txt";
 //--------------------Component listeners-------------------------------------
         dialogPoositiveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences editMotorPreference = getSharedPreferences(prefrenceName, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = editMotorPreference.edit();
+                editor.putString(editMovementsString[currentMovement],currentMovementString);
                 dialog.dismiss();
+                Log.i(editMovementsString[currentMovement],currentMovementString);
+                currentMovement = -1;
             }
         });
         dialogNegativeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                currentMovement = -1;
             }
         });
         for(i=0;i<6;i++){
@@ -107,6 +122,7 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
                     }
                     dialog.setTitle("Movement "+editMovementsString[temp_n]);
                     dialog.show();
+                    currentMovement = temp_n;
                 }
             });
 
@@ -116,6 +132,7 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
                     outletStatusBtnContent[temp_n]++;
                     if(outletStatusBtnContent[temp_n]==3) outletStatusBtnContent[temp_n]=0;
                     outletStatusBtn[temp_n].setText(dialogBtnLabel[outletStatusBtnContent[temp_n]]);
+                    currentMovementString = getCurrentMovementValueString();
                 }
             });
         }
@@ -143,5 +160,9 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private String getCurrentMovementValueString(){
+        return Arrays.toString(outletStatusBtnContent);
     }
 }
