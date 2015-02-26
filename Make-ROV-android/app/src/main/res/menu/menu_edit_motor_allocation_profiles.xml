@@ -4,9 +4,6 @@
     tools:context="com.rov.pcms.make_rov.EditMotorAllocationProfiles">
     <!--<item android:id="@+id/action_settings" android:title="@string/action_settings"-->
         <!--android:orderInCategory="100" app:showAsAction="never" />-->
-    <item android:id="@+id/saveMotorProfile" android:title="Save changes"
-        android:orderInCategory="150" app:showAsAction="always"
-        android:icon="@drawable/ic_file_download_white_24dp"/>
     <item android:id="@+id/exportMotorProfile" android:title="Export"
         android:orderInCategory="250" app:showAsAction="always"
         android:icon="@drawable/ic_launch_white_24dp"/>

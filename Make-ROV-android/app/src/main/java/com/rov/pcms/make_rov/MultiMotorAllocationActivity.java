@@ -1,19 +1,26 @@
 package com.rov.pcms.make_rov;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
 
 public class MultiMotorAllocationActivity extends ActionBarActivity {
+
+    public static final int TO_EIDT_RESULT_CODE = 0x1001;
+    public static final String FILE_NAME = "file-name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +44,39 @@ public class MultiMotorAllocationActivity extends ActionBarActivity {
                         ,LinearLayout.LayoutParams.MATCH_PARENT);
                final EditText adEditText = new EditText(MultiMotorAllocationActivity.this);
                        adEditText.setLayoutParams(layout);
+                       adEditText.setHint("You Must Enter The File Name Here");
+                       adEditText.setText("New_Pofile");
+                       adEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                            @Override
+                            public void onFocusChange(View v, boolean hasFocus) {
+                                adEditText.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        InputMethodManager inputMethodManager= (InputMethodManager) MultiMotorAllocationActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                        inputMethodManager.showSoftInput(adEditText, InputMethodManager.SHOW_IMPLICIT);
+                                    }
+                                });
+                            }
+                        });
+                       adEditText.requestFocus();
                 new AlertDialog.Builder(MultiMotorAllocationActivity.this)
                         .setTitle("New profile name")
                         .setView(adEditText)
-                        .setPositiveButton("Set",new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String fileName = adEditText.getText().toString();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("FILE_NAME",fileName);
-                                Intent intent = new Intent(MultiMotorAllocationActivity.this, EditMotorAllocationProfiles.class);
-                                intent.putExtras(bundle);
-                                startActivity(intent);
+                                String fileName = adEditText.getText().toString().trim();
+                                if (fileName.isEmpty()||fileName.length()==0||fileName.equals("")|| TextUtils.isEmpty(fileName)) {
+                                }else{
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString(FILE_NAME, fileName);
+                                    Intent intent = new Intent(MultiMotorAllocationActivity.this, EditMotorAllocationProfiles.class);
+                                    intent.putExtras(bundle);
+                                    startActivityForResult(intent, TO_EIDT_RESULT_CODE);
+                                }
                             }
                         })
-                        .setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
