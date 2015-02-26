@@ -152,17 +152,30 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        String contentGonnaSave[] = new String[7];
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id == R.id.exportMotorProfile){
+//            for(int i = 0;i<6;i++){
+//                final int tempi = i;
+//                SharedPreferences sharedPreferences = getSharedPreferences(prefrenceName,MODE_PRIVATE);
+//                contentGonnaSave[tempi] = sharedPreferences.getString(editMovementsString[tempi],"");
+//                Log.i("Final content",contentGonnaSave[tempi]);
+//            }
+
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     private String getCurrentMovementValueString(){
-        return Arrays.toString(outletStatusBtnContent);
+        char temp[] = new char[6];
+        for(int i=0;i<6;i++){
+           temp[i]=(char)(outletStatusBtnContent[i]-48);
+        }
+        return new String(temp);
     }
 }
