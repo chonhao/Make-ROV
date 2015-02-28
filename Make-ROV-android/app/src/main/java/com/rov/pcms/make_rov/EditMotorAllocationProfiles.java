@@ -1,31 +1,22 @@
 package com.rov.pcms.make_rov;
 
-import android.app.AlertDialog;
+
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
-
-import static com.rov.pcms.make_rov.R.id.editMotorForwardBtn;
-import static com.rov.pcms.make_rov.R.id.outlet1StatusBtn;
 
 
 public class EditMotorAllocationProfiles extends ActionBarActivity {
@@ -53,9 +44,9 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
 //--------------------File writing values------------------------------------
     private String TAG = "File writing";
     private File fileList2[];
-    Context _context = EditMotorAllocationProfiles.this;
-    File extFile;
-    String absPath;
+    private Context _context = EditMotorAllocationProfiles.this;
+    private File extFile;
+    private String absPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
