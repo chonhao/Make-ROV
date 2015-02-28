@@ -7,6 +7,7 @@
     android:background="@color/primaryColor"
     android:theme="@style/AppTheme.Base"
     android:id="@+id/app_bar"
+    android:paddingTop="24dp"
     app:theme="@style/ThemeOverlay.AppCompat.Dark"
     >
 
