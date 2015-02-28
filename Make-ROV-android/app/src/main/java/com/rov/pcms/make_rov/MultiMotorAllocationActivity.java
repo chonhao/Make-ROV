@@ -42,6 +42,7 @@ public class MultiMotorAllocationActivity extends ActionBarActivity {
             public void onClick(View v) {
                 LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT
                         ,LinearLayout.LayoutParams.MATCH_PARENT);
+                layout.setMargins(16,0,16,0);
                final EditText adEditText = new EditText(MultiMotorAllocationActivity.this);
                        adEditText.setLayoutParams(layout);
                        adEditText.setHint("You Must Enter The File Name Here");

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -18,7 +19,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.Arrays;
 
 import static com.rov.pcms.make_rov.R.id.editMotorForwardBtn;
@@ -44,10 +47,16 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
     private static final String EDIT_DOWNWARD = "edit-downward";
 //---------------------Additional values--------------------------------------
     private int i;
-    private String prefrenceName;
     private String fileName;
+    private String prefrenceName;
     private int currentMovement;
     private String currentMovementString;
+//--------------------File writing values------------------------------------
+    private String TAG = "File writing";
+    private File fileList2[];
+    Context _context = EditMotorAllocationProfiles.this;
+    File extFile;
+    String absPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,15 +101,31 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
         Bundle bundle = getIntent().getExtras();
         prefrenceName = bundle.getString(MultiMotorAllocationActivity.FILE_NAME);
         fileName += ".txt";
+        fileList2 = _context.getExternalFilesDirs(Environment.DIRECTORY_DOWNLOADS);
+        extFile = fileList2[1];
+        absPath = extFile.getAbsolutePath();
+        if(fileList2.length == 1) {
+            Log.d(TAG, "external device is not mounted.");
+        } else {
+            Log.d(TAG, "external device is mounted.");
+            Log.d(TAG, "external device download : " + absPath);
+        }
+
 //--------------------Component listeners-------------------------------------
         dialogPoositiveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                currentMovementString = getCurrentMovementValueString();
                 SharedPreferences editMotorPreference = getSharedPreferences(prefrenceName, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = editMotorPreference.edit();
                 editor.putString(editMovementsString[currentMovement],currentMovementString);
+                editor.commit();
                 dialog.dismiss();
-                Log.i(editMovementsString[currentMovement],currentMovementString);
+                Log.i(editMovementsString[currentMovement], currentMovementString);
+                Toast.makeText(EditMotorAllocationProfiles.this,currentMovementString,Toast.LENGTH_LONG).show();
+                SharedPreferences sp = getSharedPreferences(prefrenceName, Context.MODE_PRIVATE);
+                Log.i("preference content",sp.getString(editMovementsString[currentMovement],""));
+                Toast.makeText(EditMotorAllocationProfiles.this,sp.getString(editMovementsString[currentMovement],"nothing"),Toast.LENGTH_LONG).show();
                 currentMovement = -1;
             }
         });
@@ -116,8 +141,18 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
             editMovements[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SharedPreferences sharedPreferences = getSharedPreferences(prefrenceName,MODE_PRIVATE);
+                    String getSavedContentString = sharedPreferences.getString(editMovementsString[temp_n],"[0, 0, 0, 0, 0, 0]");
+                    String[] savedContentStringSplitted = getSavedContentString.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+                    int[] savedcontentSplitted = new int[savedContentStringSplitted.length];
+                    for (int i = 0; i < savedContentStringSplitted.length; i++) {
+                        final int temp__i = i;
+                        try {
+                            savedcontentSplitted[temp__i] = Integer.parseInt(savedContentStringSplitted[temp__i]);
+                        } catch (NumberFormatException nfe) {};
+                    }
                     for(int i=0;i<6;i++) {
-                        outletStatusBtnContent[i] = 0;
+                        outletStatusBtnContent[i] = savedcontentSplitted[i];
                         outletStatusBtn[i].setText(dialogBtnLabel[outletStatusBtnContent[i]]);
                     }
                     dialog.setTitle("Movement "+editMovementsString[temp_n]);
@@ -132,7 +167,6 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
                     outletStatusBtnContent[temp_n]++;
                     if(outletStatusBtnContent[temp_n]==3) outletStatusBtnContent[temp_n]=0;
                     outletStatusBtn[temp_n].setText(dialogBtnLabel[outletStatusBtnContent[temp_n]]);
-                    currentMovementString = getCurrentMovementValueString();
                 }
             });
         }
@@ -152,30 +186,40 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        String contentGonnaSave[] = new String[7];
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }else if(id == R.id.exportMotorProfile){
-//            for(int i = 0;i<6;i++){
-//                final int tempi = i;
-//                SharedPreferences sharedPreferences = getSharedPreferences(prefrenceName,MODE_PRIVATE);
-//                contentGonnaSave[tempi] = sharedPreferences.getString(editMovementsString[tempi],"");
-//                Log.i("Final content",contentGonnaSave[tempi]);
-//            }
+        }else if(id == R.id.exportMotorProfile) {
+            SharedPreferences sharedPreferences = getSharedPreferences(prefrenceName,MODE_PRIVATE);
+            File file = new File(absPath,prefrenceName+".txt");
+            FileOutputStream f = null;
+            PrintWriter pw = null;
+            try {
+                f = new FileOutputStream(file);
+                pw = new PrintWriter(f);
+                for(int i=0;i<6;i++){
+                    final int tempi = i;
+                    Log.i("export " + tempi, sharedPreferences.getString(editMovementsString[tempi], "[0, 0, 0, 0, 0, 0]"));
+                    pw.println(sharedPreferences.getString(editMovementsString[tempi], "[0, 0, 0, 0, 0, 0]"));
+                }
+                pw.flush();
+                pw.close();
+                f.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
+            Toast.makeText(this, "File Path:"+file.getPath(),Toast.LENGTH_LONG).show();
         }
+
+
 
         return super.onOptionsItemSelected(item);
     }
 
     private String getCurrentMovementValueString(){
-        char temp[] = new char[6];
-        for(int i=0;i<6;i++){
-           temp[i]=(char)(outletStatusBtnContent[i]-48);
-        }
-        return new String(temp);
+        return Arrays.toString(outletStatusBtnContent);
     }
 }
