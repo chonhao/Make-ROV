@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,12 +22,14 @@ import java.util.Arrays;
 
 public class EditMotorAllocationProfiles extends ActionBarActivity {
 //---------------------UI components init-----------------------------------
-    private Button[] editMovements = new Button[6];
-    private String[] editMovementsString = new String[6];
+    private final int MOTORS_AMOUNT = 8;
+    private final int MOTORS_MOVEMENTS_AMOUNT = 6;
+    private Button[] editMovements = new Button[MOTORS_MOVEMENTS_AMOUNT];
+    private String[] editMovementsString = new String[MOTORS_MOVEMENTS_AMOUNT];
 
     private Dialog dialog;
-    private Button[] outletStatusBtn = new Button[6];
-    private int[] outletStatusBtnContent = new int[6];
+    private Button[] outletStatusBtn = new Button[MOTORS_AMOUNT];
+    private int[] outletStatusBtnContent = new int[MOTORS_AMOUNT];
     private String[] dialogBtnLabel = new String[3];
     private Button dialogPoositiveBtn,dialogNegativeBtn;
 //---------------------Shared Preference TAG values-------------------------
@@ -75,11 +78,14 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
         outletStatusBtn[3] = (Button)dialog.findViewById(R.id.outlet4StatusBtn);
         outletStatusBtn[4] = (Button)dialog.findViewById(R.id.outlet5StatusBtn);
         outletStatusBtn[5] = (Button)dialog.findViewById(R.id.outlet6StatusBtn);
+        outletStatusBtn[6] = (Button)dialog.findViewById(R.id.outlet7StatusBtn);
+        outletStatusBtn[7] = (Button)dialog.findViewById(R.id.outlet8StatusBtn);
         dialogPoositiveBtn = (Button)dialog.findViewById(R.id.saveChangesBtn);
         dialogNegativeBtn  = (Button)dialog.findViewById(R.id.discardBtn);
         outletStatusBtnContent[0]=0; outletStatusBtnContent[1]=0;
         outletStatusBtnContent[2]=0; outletStatusBtnContent[3]=0;
         outletStatusBtnContent[4]=0; outletStatusBtnContent[5]=0;
+        outletStatusBtnContent[6]=0; outletStatusBtnContent[7]=0;
         dialogBtnLabel[0]="STOP";
         dialogBtnLabel[1]="POSITIVE";
         dialogBtnLabel[2]="NEGATIVE";
@@ -134,13 +140,24 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
                 currentMovement = -1;
             }
         });
-        for(i=0;i<6;i++){
+        for(i=0;i<MOTORS_AMOUNT;i++){
+            final int temp_n = i;
+            outletStatusBtn[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    outletStatusBtnContent[temp_n]++;
+                    if(outletStatusBtnContent[temp_n]==3) outletStatusBtnContent[temp_n]=0;
+                    outletStatusBtn[temp_n].setText(dialogBtnLabel[outletStatusBtnContent[temp_n]]);
+                }
+            });
+        }
+        for(int i =0;i<MOTORS_MOVEMENTS_AMOUNT;i++){
             final int temp_n = i;
             editMovements[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     SharedPreferences sharedPreferences = getSharedPreferences(prefrenceName,MODE_PRIVATE);
-                    String getSavedContentString = sharedPreferences.getString(editMovementsString[temp_n],"[0, 0, 0, 0, 0, 0]");
+                    String getSavedContentString = sharedPreferences.getString(editMovementsString[temp_n],"[0, 0, 0, 0, 0, 0, 0, 0]");
                     String[] savedContentStringSplitted = getSavedContentString.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ","").split(",");
                     int[] savedcontentSplitted = new int[savedContentStringSplitted.length];
                     for (int i = 0; i < savedContentStringSplitted.length; i++) {
@@ -149,22 +166,13 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
                             savedcontentSplitted[temp__i] = Integer.parseInt(savedContentStringSplitted[temp__i]);
                         } catch (NumberFormatException nfe) {};
                     }
-                    for(int i=0;i<6;i++) {
+                    for(int i=0;i<MOTORS_AMOUNT;i++) {
                         outletStatusBtnContent[i] = savedcontentSplitted[i];
                         outletStatusBtn[i].setText(dialogBtnLabel[outletStatusBtnContent[i]]);
                     }
                     dialog.setTitle("Movement "+editMovementsString[temp_n]);
                     dialog.show();
                     currentMovement = temp_n;
-                }
-            });
-
-            outletStatusBtn[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    outletStatusBtnContent[temp_n]++;
-                    if(outletStatusBtnContent[temp_n]==3) outletStatusBtnContent[temp_n]=0;
-                    outletStatusBtn[temp_n].setText(dialogBtnLabel[outletStatusBtnContent[temp_n]]);
                 }
             });
         }
@@ -197,10 +205,10 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
             try {
                 f = new FileOutputStream(file);
                 pw = new PrintWriter(f);
-                for(int i=0;i<6;i++){
+                for(int i=0;i<MOTORS_MOVEMENTS_AMOUNT;i++){
                     final int tempi = i;
-//                    Log.i("export " + tempi, sharedPreferences.getString(editMovementsString[tempi], "[0, 0, 0, 0, 0, 0]"));
-                    pw.println(sharedPreferences.getString(editMovementsString[tempi], "[0, 0, 0, 0, 0, 0]").replace("[","")
+//                    Log.i("export " + tempi, sharedPreferences.getString(editMovementsString[tempi], "[0, 0, 0, 0, 0, 0, 0, 0]"));
+                    pw.println(sharedPreferences.getString(editMovementsString[tempi], "[0, 0, 0, 0, 0, 0, 0, 0]").replace("[","")
                             .replace("]","").replace(" ","").replace(",",""));
                 }
                 pw.flush();

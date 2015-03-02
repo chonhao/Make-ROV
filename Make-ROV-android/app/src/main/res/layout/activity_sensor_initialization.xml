@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.rov.pcms.make_rov.SensorInitialization"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/app_bar2"
+        layout="@layout/app_bar"/>
+
+    <Button
+        android:id="@+id/sensor1Btn"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start|center_vertical"
+        android:text="Sensor 1 Outlet"
+        style="?android:attr/borderlessButtonStyle"
+        />
+    <Button
+        android:id="@+id/sensor2Btn"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start|center_vertical"
+        android:text="Sensor 2 Outlet"
+        style="?android:attr/borderlessButtonStyle"
+        />
+    <Button
+        android:id="@+id/sensor3Btn"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start|center_vertical"
+        android:text="Sensor 3 Outlet"
+        style="?android:attr/borderlessButtonStyle"
+        />
+    <Button
+        android:id="@+id/sensor4Btn"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start|center_vertical"
+        android:text="Sensor 4 Outlet"
+        style="?android:attr/borderlessButtonStyle"
+        />
+
+</LinearLayout>

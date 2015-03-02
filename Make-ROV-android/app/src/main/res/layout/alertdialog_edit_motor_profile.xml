@@ -143,6 +143,52 @@
             android:textColor="@color/primaryColor"
             style="?android:attr/borderlessButtonStyle"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="16dp"
+            android:text="Outlet 7:"
+            android:textSize="16dp"
+            android:gravity="center_vertical|center_horizontal"
+            />
+        <Button
+            android:id="@+id/outlet7StatusBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="16dp"
+            android:text="STOP"
+            android:textColor="@color/primaryColor"
+            style="?android:attr/borderlessButtonStyle"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="16dp"
+            android:text="Outlet 8:"
+            android:textSize="16dp"
+            android:gravity="center_vertical|center_horizontal"
+            />
+        <Button
+            android:id="@+id/outlet8StatusBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="16dp"
+            android:text="STOP"
+            android:textColor="@color/primaryColor"
+            style="?android:attr/borderlessButtonStyle"/>
+    </LinearLayout>
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"

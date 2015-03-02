@@ -10,6 +10,7 @@
         <item>Multi Motor Allocation</item>
         <item>Sensor Initialization</item>
         <item>Payload Tools Allocation</item>
+        <item>Sensor Monitor</item>
     </string-array>
 
     <string name="title_activity_multi_motor_allocation">Multi Motor Allocation</string>
@@ -20,5 +21,6 @@
 
     <string name="editMotorIntroduction">\t\t\tDue to the differences of Motor Allocations, we need to know which
         motors need to be turned on in which motions. Here are the movements you\'re required to configure.</string>
+    <string name="title_activity_sensor_initialization">Sensor Initialization</string>
 
 </resources>

@@ -55,8 +55,13 @@ public class BasicInformationActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(BasicInformationActivity.this, Long.toString(id), Toast.LENGTH_SHORT).show();
-                if (id == 1) {
-                    startActivity(new Intent(BasicInformationActivity.this, MultiMotorAllocationActivity.class));
+                switch ((int)id) {
+                    case 1:
+                         startActivity(new Intent(BasicInformationActivity.this, MultiMotorAllocationActivity.class));
+                        break;
+                    case 2:
+                        startActivity(new Intent(BasicInformationActivity.this, SensorInitialization.class));
+                        break;
                 }
                 drawerLayout.closeDrawer(drawerList);
             }
