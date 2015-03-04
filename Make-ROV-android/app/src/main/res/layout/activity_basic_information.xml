@@ -37,12 +37,62 @@
                 android:layout_height="wrap_content"
                 android:hint="ROV name"
                 android:layout_marginTop="16dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginRight="32dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:text="Delphinus"
                 android:textSize="36dp"
+                android:singleLine="true"
+                android:maxLines="1"
                 android:id="@+id/rovNameEditText"
                 />
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp">
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="Number of Motors"
+                    android:textSize="18dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/motorSpinner"
+                    android:layout_weight="1"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp">
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="Number of Sensors"
+                    android:textSize="18dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sensorSpinner"
+                    android:layout_weight="1"
+                    />
+
+            </LinearLayout>
 
 
 
