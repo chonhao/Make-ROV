@@ -219,6 +219,7 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
             }
 
             Toast.makeText(this, "File exported to "+file.getPath(),Toast.LENGTH_LONG).show();
+            finish();
         }
 
 

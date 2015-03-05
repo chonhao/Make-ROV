@@ -14,12 +14,17 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
 
 public class MultiMotorAllocationActivity extends ActionBarActivity {
 
     public static final int TO_EIDT_RESULT_CODE = 0x1001;
     public static final String FILE_NAME = "file-name";
+    public static SliderLayout sliderShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,32 +38,65 @@ public class MultiMotorAllocationActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        com.melnykov.fab.FloatingActionButton motorFab = (com.melnykov.fab.FloatingActionButton) findViewById(R.id.motorFab);
+//        com.melnykov.fab.FloatingActionButton motorFab = (com.melnykov.fab.FloatingActionButton) findViewById(R.id.motorFab);
+        sliderShow = (SliderLayout) findViewById(R.id.slider);
 //--------------------Additional setup----------------------------------------
 //--------------------Component listeners-------------------------------------
-        motorFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+        TextSliderView textSliderView = new TextSliderView(this);
+        textSliderView
+                .description("Default")
+                .image(R.drawable.startup_screen);
+        TextSliderView textSliderView2 = new TextSliderView(this);
+        textSliderView2
+                .description("Hihi")
+                .image(R.drawable.ic_launcher);
+        sliderShow.addSlider(textSliderView);
+        sliderShow.addSlider(textSliderView2);
+
+        sliderShow.stopAutoCycle();
+        sliderShow.setDuration(0);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_multi_motor_allocation, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        switch(id){
+            case R.id.addMotorTemplate:
+                Toast.makeText(MultiMotorAllocationActivity.this,Integer.toString(sliderShow.getCurrentPosition()),Toast.LENGTH_LONG).show();
+
                 LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT
                         ,LinearLayout.LayoutParams.MATCH_PARENT);
                 layout.setMargins(16,0,16,0);
-               final EditText adEditText = new EditText(MultiMotorAllocationActivity.this);
-                       adEditText.setLayoutParams(layout);
-                       adEditText.setHint("You Must Enter The File Name Here");
-                       adEditText.setText("New_Pofile");
-                       adEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                final EditText adEditText = new EditText(MultiMotorAllocationActivity.this);
+                adEditText.setLayoutParams(layout);
+                adEditText.setHint("You Must Enter The File Name Here");
+                adEditText.setText("New_Pofile");
+                adEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        adEditText.post(new Runnable() {
                             @Override
-                            public void onFocusChange(View v, boolean hasFocus) {
-                                adEditText.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        InputMethodManager inputMethodManager= (InputMethodManager) MultiMotorAllocationActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                                        inputMethodManager.showSoftInput(adEditText, InputMethodManager.SHOW_IMPLICIT);
-                                    }
-                                });
+                            public void run() {
+                                InputMethodManager inputMethodManager= (InputMethodManager) MultiMotorAllocationActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                inputMethodManager.showSoftInput(adEditText, InputMethodManager.SHOW_IMPLICIT);
                             }
                         });
-                       adEditText.requestFocus();
+                    }
+                });
+                adEditText.requestFocus();
                 new AlertDialog.Builder(MultiMotorAllocationActivity.this)
                         .setTitle("New profile name")
                         .setView(adEditText)
@@ -83,27 +121,7 @@ public class MultiMotorAllocationActivity extends ActionBarActivity {
                             }
                         })
                         .show();
-            }
-        });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_multi_motor_allocation, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+                break;
         }
 
         return super.onOptionsItemSelected(item);

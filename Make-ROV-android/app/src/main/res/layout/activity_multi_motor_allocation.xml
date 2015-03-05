@@ -21,38 +21,69 @@
             android:layout_marginTop="16dp"
             android:text="@string/motorIntroduction"
             />
-        <Button
-            android:id="@+id/template1btn"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+        <!--<Button-->
+            <!--android:id="@+id/template1btn"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="start|center_vertical"-->
+            <!--android:text="Template 1"-->
+            <!--style="?android:attr/borderlessButtonStyle"-->
+            <!--/>-->
+        <!--<Button-->
+            <!--android:id="@+id/template2btn"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="start|center_vertical"-->
+            <!--android:text="Template 2"-->
+            <!--style="?android:attr/borderlessButtonStyle"-->
+            <!--/>-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:text="Template 1"
-            style="?android:attr/borderlessButtonStyle"
-            />
-        <Button
-            android:id="@+id/template2btn"
-            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="88dp"
             android:layout_marginRight="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:text="Template 2"
-            style="?android:attr/borderlessButtonStyle"
-            />
+            android:layout_marginLeft="16dp">
+
+            <com.daimajia.slider.library.SliderLayout
+                android:id="@+id/slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            </LinearLayout>
+
+
+
     </LinearLayout>
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id = "@+id/motorFab"
-        android:layout_width="wrap_content"
+    <!--<com.melnykov.fab.FloatingActionButton-->
+        <!--android:id = "@+id/motorFab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|right"-->
+        <!--android:layout_margin="16dp"-->
+        <!--app:fab_colorNormal="@android:color/holo_red_light"-->
+        <!--app:fab_colorPressed="@android:color/holo_red_dark"-->
+        <!--android:src="@drawable/ic_add_white_24dp"-->
+        <!--/>-->
+    <Button
+        android:id="@+id/setMotorProfileBtn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        app:fab_colorNormal="@android:color/holo_red_light"
-        app:fab_colorPressed="@android:color/holo_red_dark"
-        android:src="@drawable/ic_add_white_24dp"
+        android:gravity="center|center_vertical"
+        android:text="Set"
+        android:layout_gravity="bottom"
+        style="?android:attr/borderlessButtonStyle"
         />
+
+
+
 
 </FrameLayout>
