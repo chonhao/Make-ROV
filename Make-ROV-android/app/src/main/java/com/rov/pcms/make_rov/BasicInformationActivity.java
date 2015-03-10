@@ -41,6 +41,9 @@ public class BasicInformationActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_information);
 
+        //debug
+        startActivity(new Intent(BasicInformationActivity.this,setup_BasicInformationActivity.class));
+
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar2);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);

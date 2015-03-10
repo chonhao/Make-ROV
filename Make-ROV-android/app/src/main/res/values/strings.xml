@@ -22,5 +22,10 @@
     <string name="editMotorIntroduction">\t\t\tDue to the differences of Motor Allocations, we need to know which
         motors need to be turned on in which motions. Here are the movements you\'re required to configure.</string>
     <string name="title_activity_sensor_initialization">Sensor Initialization</string>
+    <string name="title_activity_setup__basic_information">Make-ROV Setup Wizard</string>
+    <string name="title_activity_setup__multi_motor_allocation">Multi Motor Setup Wizard</string>
+    <string name="setupWizardIntroduction">\t\tWelcome to Make-ROV Setup Wizard. In this wizard, you\'re required to
+    fill in every item below. Items can be modified anytime. Your ROV Should work after the wizard.</string>
+    <string name="title_activity_setup__basic_information_activity_2">Make-ROV Setup Wizard</string>
 
 </resources>

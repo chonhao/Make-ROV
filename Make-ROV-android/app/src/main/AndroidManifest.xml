@@ -42,6 +42,26 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rov.pcms.make_rov.BasicInformationActivity" />
         </activity>
+        <activity
+            android:name=".setup_BasicInformationActivity"
+            android:label="@string/title_activity_setup__basic_information" >
+        </activity>
+        <activity
+            android:name=".setup_BasicInformationActivity_2"
+            android:label="@string/title_activity_setup__basic_information_activity_2"
+            android:parentActivityName=".setup_BasicInformationActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rov.pcms.make_rov.setup_BasicInformationActivity" />
+        </activity>
+        <activity
+            android:name=".setup_MultiMotorAllocationActivity"
+            android:label="@string/title_activity_setup__multi_motor_allocation"
+            android:parentActivityName=".setup_BasicInformationActivity_2" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rov.pcms.make_rov.setup_BasicInformationActivity_2" />
+        </activity>
     </application>
 
 </manifest>
