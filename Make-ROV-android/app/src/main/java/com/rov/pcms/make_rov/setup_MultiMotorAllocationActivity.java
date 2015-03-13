@@ -29,6 +29,7 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
     public static SliderLayout sliderShow;
     private static Button setTemplateProfiles;
     private static FloatingActionButton backFab;
+    private static FloatingActionButton nextFab;
 
     private static int position;
 
@@ -40,12 +41,10 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar2);
         toolbar.setBackground(getResources().getDrawable(R.color.motor_act_primaryColor));
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTemplateProfiles = (Button)findViewById(R.id.setMotorProfileBtn);
         backFab = (FloatingActionButton)findViewById(R.id.previousFab);
+        nextFab = (FloatingActionButton)findViewById(R.id.nextFab);
 //        com.melnykov.fab.FloatingActionButton motorFab = (com.melnykov.fab.FloatingActionButton) findViewById(R.id.motorFab);
         sliderShow = (SliderLayout) findViewById(R.id.slider);
 
@@ -69,6 +68,11 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
             public void onClick(View v) {
                 finish();
                 overridePendingTransition(R.anim.left_to_right_close,R.anim.right_to_left_close);
+            }
+        });
+        nextFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
             }
         });
 

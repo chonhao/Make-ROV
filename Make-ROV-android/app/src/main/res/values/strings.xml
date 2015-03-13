@@ -27,5 +27,6 @@
     <string name="setupWizardIntroduction">\t\tWelcome to Make-ROV Setup Wizard. In this wizard, you\'re required to
     fill in every item below. Items can be modified anytime. Your ROV Should work after the wizard.</string>
     <string name="title_activity_setup__basic_information_activity_2">Make-ROV Setup Wizard</string>
+    <string name="rovValuesIntroduction">\t\tIn the following items, you\'re required to fill in </string>
 
 </resources>

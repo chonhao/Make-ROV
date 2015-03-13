@@ -46,7 +46,7 @@
                 android:hint="ROV name"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="Enter your ROV name here:"
+                android:text="Enter your ROV values here:"
                 android:textColor="@color/accentColor"
                 android:layout_gravity="bottom"/>
 
@@ -69,16 +69,33 @@
                     android:layout_height="fill_parent"
                     android:text="Number of Motors"
                     android:textSize="18dp"
-                    android:layout_weight="1"
+                    android:layout_weight="30"
                     android:gravity="center_vertical|center_horizontal"/>
 
-                <Spinner
-                    android:layout_width="fill_parent"
+                <Button
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/motorSpinner"
-                    android:layout_weight="1"
-                    />
-
+                    android:layout_weight="6"
+                    android:text="-"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:id="@+id/motorMinus"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_weight="0.000001"
+                    android:id="@+id/motorNumTextView"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:text="+"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:id="@+id/motorPlus"/>
             </LinearLayout>
 
 
@@ -101,15 +118,33 @@
                     android:layout_height="fill_parent"
                     android:text="Number of Sensors"
                     android:textSize="18dp"
-                    android:layout_weight="1"
+                    android:layout_weight="30"
                     android:gravity="center_vertical|center_horizontal"/>
 
-                <Spinner
-                    android:layout_width="fill_parent"
+                <Button
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/sensorSpinner"
-                    android:layout_weight="1"
-                    />
+                    android:layout_weight="6"
+                    android:text="-"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:id="@+id/sensorMinus"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_weight="0.000001"
+                    android:id="@+id/sensorNumTextView"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:text="+"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:id="@+id/sensorPlus"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -132,15 +167,33 @@
                     android:layout_height="fill_parent"
                     android:text="Number of Payload Tools"
                     android:textSize="18dp"
-                    android:layout_weight="1"
+                    android:layout_weight="30"
                     android:gravity="center_vertical|center_horizontal"/>
 
-                <Spinner
-                    android:layout_width="fill_parent"
+                <Button
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/payloadSpinner"
-                    android:layout_weight="1"
-                    />
+                    android:layout_weight="6"
+                    android:text="-"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:id="@+id/payloadMinus"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_weight="0.000001"
+                    android:id="@+id/payloadNumTextView"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:text="+"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:id="@+id/payloadPlus"/>
 
             </LinearLayout>
         </LinearLayout>
