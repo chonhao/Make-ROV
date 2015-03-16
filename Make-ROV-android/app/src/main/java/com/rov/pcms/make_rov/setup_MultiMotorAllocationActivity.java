@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -32,6 +33,7 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
     private static FloatingActionButton nextFab;
 
     private static int position;
+    private static SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
                 .image(R.drawable.ic_launcher);
         sliderShow.addSlider(textSliderView);
         sliderShow.addSlider(textSliderView2);
-
+        sharedPreferences = getSharedPreferences(BasicInformationActivity.ROV_BASIC_INFORMATION,MODE_PRIVATE);
 
         sliderShow.stopAutoCycle();
         sliderShow.setDuration(0);
@@ -73,6 +75,9 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
         nextFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(BasicInformationActivity.FIRST_TIME_SETUP,"false").apply();
+                startActivity(new Intent(setup_MultiMotorAllocationActivity.this,BasicInformationActivity.class));
             }
         });
 

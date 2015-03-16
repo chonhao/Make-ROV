@@ -41,6 +41,8 @@ public class setup_BasicInformationActivity_2 extends ActionBarActivity {
     private static int sensorNum = 0;
     private static int payloadNum = 0;
 
+    private SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,7 @@ public class setup_BasicInformationActivity_2 extends ActionBarActivity {
         sensorNumTextView = (TextView)findViewById(R.id.sensorNumTextView);
         payloadNumTextView = (TextView)findViewById(R.id.payloadNumTextView);
 //---------------Other init-------------------------------------
-        SharedPreferences sharedPreferences = getSharedPreferences(ROV_BASIC_INFORMATION,MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(ROV_BASIC_INFORMATION,MODE_PRIVATE);
         motorNumTextView.setText(sharedPreferences.getString(MOTOR_NUM, "0"));
         sensorNumTextView.setText(sharedPreferences.getString(SENSOR_NUM, "0"));
         payloadNumTextView.setText(sharedPreferences.getString(PAYLOAD_NUM, "0"));
@@ -101,6 +103,7 @@ public class setup_BasicInformationActivity_2 extends ActionBarActivity {
                 updateAllNumText();
             }
         });
+        //===================sensor===================================
         sensorMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +123,7 @@ public class setup_BasicInformationActivity_2 extends ActionBarActivity {
                 updateAllNumText();
             }
         });
+        //====================payloads============================
         payloadMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,7 +180,7 @@ public class setup_BasicInformationActivity_2 extends ActionBarActivity {
         sensorNumTextView.setText(Integer.toString(sensorNum));
         payloadNumTextView.setText(Integer.toString(payloadNum));
 
-        SharedPreferences sharedPreferences = getSharedPreferences(ROV_BASIC_INFORMATION,MODE_PRIVATE);
+
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(MOTOR_NUM,Integer.toString(motorNum));
         editor.putString(SENSOR_NUM,Integer.toString(sensorNum));

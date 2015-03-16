@@ -33,16 +33,16 @@ public class BasicInformationActivity extends ActionBarActivity {
 
     private EditText rovNameEditText;
 //-------------Shared preferences init values-------------------------------------
-    private static final String ROV_BASIC_INFORMATION = "rov-basic-information";
+    public  static final String ROV_BASIC_INFORMATION = "rov-basic-information";
     private static final String ROV_NAME = "rov-name";
+    public  static final String FIRST_TIME_SETUP = "first-time-setup";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_information);
 
-        //debug
-        startActivity(new Intent(BasicInformationActivity.this,setup_BasicInformationActivity.class));
+
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar2);
         setSupportActionBar(toolbar);
@@ -87,6 +87,10 @@ public class BasicInformationActivity extends ActionBarActivity {
 
 //------------------UI setup completed----------------------------------
 //------------------Additional setup------------------------------------
+        SharedPreferences sharedPreferences = getSharedPreferences(ROV_BASIC_INFORMATION,MODE_PRIVATE);
+        if(!sharedPreferences.getString(FIRST_TIME_SETUP,"true").equals("false")) //debug
+            startActivity(new Intent(BasicInformationActivity.this,setup_BasicInformationActivity.class));
+
         //TODO: make a dialog when sd card is not mounting
         //TODO: open the drawer automatically if the user haven't learn the usage of drawer
         SharedPreferences rovName = getSharedPreferences(ROV_BASIC_INFORMATION,MODE_PRIVATE);
