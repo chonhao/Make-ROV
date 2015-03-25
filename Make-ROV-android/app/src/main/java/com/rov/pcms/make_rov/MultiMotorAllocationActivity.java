@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +22,10 @@ import android.widget.Toast;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+
 
 public class MultiMotorAllocationActivity extends ActionBarActivity {
 
@@ -29,6 +35,13 @@ public class MultiMotorAllocationActivity extends ActionBarActivity {
     private static Button setTemplateProfiles;
 
     private static int position;
+
+    private String TAG = "File writing";
+    private File fileList2[];
+    private Context _context = MultiMotorAllocationActivity.this;
+    private File extFile;
+    private String absPath;
+    private String prefrenceName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,39 +61,79 @@ public class MultiMotorAllocationActivity extends ActionBarActivity {
         sliderShow = (SliderLayout) findViewById(R.id.slider);
 
 //--------------------Additional setup----------------------------------------
-        TextSliderView textSliderView = new TextSliderView(this);
-        textSliderView.description("Default")
-                      .image(R.drawable.startup_screen);
-        TextSliderView textSliderView2 = new TextSliderView(this);
-        textSliderView2.description("Hihi")
-                       .image(R.drawable.ic_launcher);
-        sliderShow.addSlider(textSliderView);
-        sliderShow.addSlider(textSliderView2);
-
-
+        TextSliderView textSliderViewDelphinus = new TextSliderView(this);
+        textSliderViewDelphinus.description("Delphinus (2nd generation)")
+                      .image(R.drawable.delphinus);
+        TextSliderView textSliderViewCtenophora = new TextSliderView(this);
+        textSliderViewCtenophora.description("Ctenophora (3rd generation)")
+                       .image(R.drawable.ctenophora);
+        TextSliderView textSliderViewEagleRay = new TextSliderView(this);
+        textSliderViewEagleRay.description("Eagle Ray (1st generation)")
+                .image(R.drawable.eagle_ray);
+        sliderShow.addSlider(textSliderViewEagleRay);
+        sliderShow.addSlider(textSliderViewDelphinus);
+        sliderShow.addSlider(textSliderViewCtenophora);
         sliderShow.stopAutoCycle();
         sliderShow.setDuration(0);
+
+        prefrenceName = "Motor_Allocation";
+        try {
+            fileList2 = _context.getExternalFilesDirs(Environment.DIRECTORY_DOWNLOADS);
+            extFile = fileList2[1];
+        }catch (Exception e){
+            Toast.makeText(this,"Can't find any External Storage. Files will be written to Internal Storage",Toast.LENGTH_LONG).show();
+            extFile = Environment.getExternalStorageDirectory();
+        }catch (NoSuchMethodError noSuchMethodError){
+            Toast.makeText(this,"Devices under Android Kitkat do not support External Storage. Files will be written to Internal Storage",Toast.LENGTH_LONG).show();
+            extFile = Environment.getExternalStorageDirectory();
+        }
+        absPath = extFile.getAbsolutePath();
 //--------------------Component listeners-------------------------------------
         setTemplateProfiles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 position = sliderShow.getCurrentPosition();
-                Toast.makeText(MultiMotorAllocationActivity.this,Integer.toString(position),Toast.LENGTH_LONG).show();
                 switch (position){
                     case 0:
-
+                        loadDefaults(getString(R.string.eagleRay));
                         break;
                     case 1:
-
+                        loadDefaults(getString(R.string.delphinus));
                         break;
                     default:
-
+                        loadDefaults(getString(R.string.ctenophora));
                         break;
                 }
 
             }
         });
+
     }
+
+    private void loadDefaults(String defaultName){
+        File file = new File(absPath,prefrenceName+".txt");
+        FileOutputStream f = null;
+        PrintWriter pw = null;
+        try {
+            f = new FileOutputStream(file);
+            pw = new PrintWriter(f);
+            if(defaultName.equals(getString(R.string.eagleRay))){
+
+            }else if(defaultName.equals(getString(R.string.delphinus))){
+
+            }else if(defaultName.equals(getString(R.string.ctenophora))){
+
+            }
+            pw.flush();
+            pw.close();
+            f.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(this, "File exported to "+file.getPath(),Toast.LENGTH_LONG).show();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

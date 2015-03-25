@@ -29,4 +29,8 @@
     <string name="title_activity_setup__basic_information_activity_2">Make-ROV Setup Wizard</string>
     <string name="rovValuesIntroduction">\t\tIn the following items, you\'re required to fill in </string>
 
+    <string name="eagleRay">Eagle-Ray</string>
+    <string name="delphinus">Delphinus</string>
+    <string name="ctenophora">ctenophora</string>
+
 </resources>

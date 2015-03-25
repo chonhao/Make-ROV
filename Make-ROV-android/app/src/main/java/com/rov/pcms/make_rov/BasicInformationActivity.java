@@ -18,12 +18,25 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class BasicInformationActivity extends ActionBarActivity {
+//-----------fixed values----------------------------------------
+
+    final private int MAX_SENSOR_NUM = 4;
+    final private int MAX_OUTPUT_NUM = 8;
+    final private String MOTOR_NUM = "motor-num";
+    final private String SENSOR_NUM = "sensor-num";
+    final private String PAYLOAD_NUM = "payload-num";
+    //-------------Shared preferences init values-------------------------------------
+    public  static final String ROV_BASIC_INFORMATION = "rov-basic-information";
+    private static final String ROV_NAME = "rov-name";
+    public  static final String FIRST_TIME_SETUP = "first-time-setup";
 //------------UI class init values-----------------------------------------------
     public static String[] navBarChoices;
     private DrawerLayout drawerLayout;
@@ -31,11 +44,24 @@ public class BasicInformationActivity extends ActionBarActivity {
     private android.support.v7.app.ActionBarDrawerToggle drawerListener;
     MyAdapter myAdapter;
 
+    private static Button motorMinus;
+    private static Button motorPlus;
+    private static Button sensorMinus;
+    private static Button sensorPlus;
+    private static Button payloadMinus;
+    private static Button payloadPlus;
+    private static TextView motorNumTextView;
+    private static TextView sensorNumTextView;
+    private static TextView payloadNumTextView;
+
     private EditText rovNameEditText;
-//-------------Shared preferences init values-------------------------------------
-    public  static final String ROV_BASIC_INFORMATION = "rov-basic-information";
-    private static final String ROV_NAME = "rov-name";
-    public  static final String FIRST_TIME_SETUP = "first-time-setup";
+
+    private static int motorNum = 0;
+    private static int sensorNum = 0;
+    private static int payloadNum = 0;
+
+    private SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +75,16 @@ public class BasicInformationActivity extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        motorMinus = (Button)findViewById(R.id.motorMinus);
+        motorPlus = (Button)findViewById(R.id.motorPlus);
+        sensorMinus = (Button)findViewById(R.id.sensorMinus);
+        sensorPlus = (Button)findViewById(R.id.sensorPlus);
+        payloadMinus = (Button)findViewById(R.id.payloadMinus);
+        payloadPlus = (Button)findViewById(R.id.payloadPlus);
+        motorNumTextView = (TextView)findViewById(R.id.motorNumTextView);
+        sensorNumTextView = (TextView)findViewById(R.id.sensorNumTextView);
+        payloadNumTextView = (TextView)findViewById(R.id.payloadNumTextView);
 
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         drawerList = (ListView)findViewById(R.id.left_drawer);
@@ -87,7 +123,7 @@ public class BasicInformationActivity extends ActionBarActivity {
 
 //------------------UI setup completed----------------------------------
 //------------------Additional setup------------------------------------
-        SharedPreferences sharedPreferences = getSharedPreferences(ROV_BASIC_INFORMATION,MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(ROV_BASIC_INFORMATION,MODE_PRIVATE);
         if(!sharedPreferences.getString(FIRST_TIME_SETUP,"true").equals("false")) //debug
             startActivity(new Intent(BasicInformationActivity.this,setup_BasicInformationActivity.class));
 
@@ -96,6 +132,14 @@ public class BasicInformationActivity extends ActionBarActivity {
         SharedPreferences rovName = getSharedPreferences(ROV_BASIC_INFORMATION,MODE_PRIVATE);
         rovNameEditText.setText(rovName.getString(ROV_NAME,""));
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+//---------------Other init-------------------------------------
+        sharedPreferences = getSharedPreferences(ROV_BASIC_INFORMATION,MODE_PRIVATE);
+        motorNumTextView.setText(sharedPreferences.getString(MOTOR_NUM, "0"));
+        motorNum = Integer.parseInt(sharedPreferences.getString(MOTOR_NUM, "0"));
+        sensorNumTextView.setText(sharedPreferences.getString(SENSOR_NUM, "0"));
+        sensorNum = Integer.parseInt(sharedPreferences.getString(SENSOR_NUM, "0"));
+        payloadNumTextView.setText(sharedPreferences.getString(PAYLOAD_NUM, "0"));
+        payloadNum = Integer.parseInt(sharedPreferences.getString(PAYLOAD_NUM, "0"));
 //------------------Component listeners---------------------------------
         rovNameEditText.addTextChangedListener(new TextWatcher() {
             //when the rov edit text changes, save the data to shared preference
@@ -112,6 +156,63 @@ public class BasicInformationActivity extends ActionBarActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+        motorMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(motorNum>0)
+                    motorNum--;
+                updateAllNumText();
+            }
+        });
+        motorPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(motorNum+payloadNum<MAX_OUTPUT_NUM)
+                    motorNum++;
+                else
+                    showMaxToast("motorAndPayload");
+                updateAllNumText();
+            }
+        });
+        //===================sensor===================================
+        sensorMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sensorNum>0)
+                    sensorNum--;
+
+                updateAllNumText();
+            }
+        });
+        sensorPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sensorNum<MAX_SENSOR_NUM)
+                    sensorNum++;
+                else
+                    showMaxToast("sensor");
+                updateAllNumText();
+            }
+        });
+        //====================payloads============================
+        payloadMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(payloadNum>0)
+                    payloadNum--;
+                updateAllNumText();
+            }
+        });
+        payloadPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(motorNum+payloadNum<MAX_OUTPUT_NUM)
+                    payloadNum++;
+                else
+                    showMaxToast("motorAndPayload");
+                updateAllNumText();
             }
         });
     }
@@ -192,5 +293,28 @@ public class BasicInformationActivity extends ActionBarActivity {
             motorTextField.setText(features[position]);
             return row;
         }
+    }
+
+    private void updateAllNumText(){
+        motorNumTextView.setText(Integer.toString(motorNum));
+        sensorNumTextView.setText(Integer.toString(sensorNum));
+        payloadNumTextView.setText(Integer.toString(payloadNum));
+
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MOTOR_NUM,Integer.toString(motorNum));
+        editor.putString(SENSOR_NUM,Integer.toString(sensorNum));
+        editor.putString(PAYLOAD_NUM,Integer.toString(payloadNum));
+        editor.apply();
+    }
+
+    private void showMaxToast(String id){
+        if(id.equals("motorAndPayload"))
+            Toast.makeText(this, "The sum of motors and payload tools should not be more than " + Integer.toString(MAX_OUTPUT_NUM) +
+                    " because they share the same connection port.", Toast.LENGTH_LONG).show();
+        if(id.equals("sensor"))
+            Toast.makeText(this,"Numbers of sensors should not be more than "+Integer.toString(MAX_SENSOR_NUM)+
+                    " because sensor ports are limited.",Toast.LENGTH_LONG).show();
+
     }
 }
