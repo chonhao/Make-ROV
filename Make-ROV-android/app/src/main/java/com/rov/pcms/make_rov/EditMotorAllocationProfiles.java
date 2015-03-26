@@ -199,7 +199,7 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
             return true;
         }else if(id == R.id.exportMotorProfile) {
             SharedPreferences sharedPreferences = getSharedPreferences(prefrenceName,MODE_PRIVATE);
-            File file = new File(absPath,prefrenceName+".txt");
+            File file = new File(absPath,"Motor_Allocation"+".txt");
             FileOutputStream f = null;
             PrintWriter pw = null;
             try {
