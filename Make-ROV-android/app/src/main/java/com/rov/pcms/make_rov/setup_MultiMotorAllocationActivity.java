@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +23,10 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+
 
 public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
 
@@ -30,10 +35,17 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
     public static SliderLayout sliderShow;
     private static Button setTemplateProfiles;
     private static FloatingActionButton backFab;
-    private static FloatingActionButton nextFab;
+//    private static FloatingActionButton nextFab;
 
     private static int position;
     private static SharedPreferences sharedPreferences;
+
+    private String TAG = "File writing";
+    private File fileList2[];
+    private Context _context = setup_MultiMotorAllocationActivity.this;
+    private File extFile;
+    private String absPath;
+    private String prefrenceName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,23 +58,39 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
 
         setTemplateProfiles = (Button)findViewById(R.id.setMotorProfileBtn);
         backFab = (FloatingActionButton)findViewById(R.id.previousFab);
-        nextFab = (FloatingActionButton)findViewById(R.id.nextFab);
+//        nextFab = (FloatingActionButton)findViewById(R.id.nextFab);
 //        com.melnykov.fab.FloatingActionButton motorFab = (com.melnykov.fab.FloatingActionButton) findViewById(R.id.motorFab);
         sliderShow = (SliderLayout) findViewById(R.id.slider);
 
 //--------------------Additional setup----------------------------------------
-        TextSliderView textSliderView = new TextSliderView(this);
-        textSliderView.description("Default")
-                .image(R.drawable.startup_screen);
-        TextSliderView textSliderView2 = new TextSliderView(this);
-        textSliderView2.description("Hihi")
-                .image(R.drawable.ic_launcher);
-        sliderShow.addSlider(textSliderView);
-        sliderShow.addSlider(textSliderView2);
-        sharedPreferences = getSharedPreferences(BasicInformationActivity.ROV_BASIC_INFORMATION,MODE_PRIVATE);
-
+        TextSliderView textSliderViewDelphinus = new TextSliderView(this);
+        textSliderViewDelphinus.description("Delphinus (2nd generation)")
+                .image(R.drawable.delphinus);
+        TextSliderView textSliderViewCtenophora = new TextSliderView(this);
+        textSliderViewCtenophora.description("Ctenophora (3rd generation)")
+                .image(R.drawable.ctenophora);
+        TextSliderView textSliderViewEagleRay = new TextSliderView(this);
+        textSliderViewEagleRay.description("Eagle Ray (1st generation)")
+                .image(R.drawable.eagle_ray);
+        sliderShow.addSlider(textSliderViewEagleRay);
+        sliderShow.addSlider(textSliderViewDelphinus);
+        sliderShow.addSlider(textSliderViewCtenophora);
         sliderShow.stopAutoCycle();
         sliderShow.setDuration(0);
+        sharedPreferences = getSharedPreferences(BasicInformationActivity.ROV_BASIC_INFORMATION,MODE_PRIVATE);
+
+        prefrenceName = "Motor_Allocation";
+        try {
+            fileList2 = _context.getExternalFilesDirs(Environment.DIRECTORY_DOWNLOADS);
+            extFile = fileList2[1];
+        }catch (Exception e){
+            Toast.makeText(this,"Can't find any External Storage. Files will be written to Internal Storage",Toast.LENGTH_LONG).show();
+            extFile = Environment.getExternalStorageDirectory();
+        }catch (NoSuchMethodError noSuchMethodError){
+            Toast.makeText(this,"Devices under Android Kitkat do not support External Storage. Files will be written to Internal Storage",Toast.LENGTH_LONG).show();
+            extFile = Environment.getExternalStorageDirectory();
+        }
+        absPath = extFile.getAbsolutePath();
 //--------------------Component listeners-------------------------------------
 
         backFab.setOnClickListener(new View.OnClickListener() {
@@ -72,34 +100,67 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
                 overridePendingTransition(R.anim.left_to_right_close,R.anim.right_to_left_close);
             }
         });
-        nextFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(BasicInformationActivity.FIRST_TIME_SETUP,"false").apply();
-                startActivity(new Intent(setup_MultiMotorAllocationActivity.this,BasicInformationActivity.class));
-            }
-        });
 
         setTemplateProfiles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 position = sliderShow.getCurrentPosition();
-                Toast.makeText(setup_MultiMotorAllocationActivity.this, Integer.toString(position), Toast.LENGTH_LONG).show();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(BasicInformationActivity.FIRST_TIME_SETUP,"false").apply();
+                startActivity(new Intent(setup_MultiMotorAllocationActivity.this,BasicInformationActivity.class));
                 switch (position){
                     case 0:
-
+                        loadDefaults(getString(R.string.eagleRay));
                         break;
                     case 1:
-
+                        loadDefaults(getString(R.string.delphinus));
                         break;
                     default:
-
+                        loadDefaults(getString(R.string.ctenophora));
                         break;
                 }
 
             }
         });
+    }
+
+    private void loadDefaults(String defaultName) {
+        File file = new File(absPath,prefrenceName+".txt");
+        FileOutputStream f = null;
+        PrintWriter pw = null;
+        try {
+            f = new FileOutputStream(file);
+            pw = new PrintWriter(f);
+            if(defaultName.equals(getString(R.string.eagleRay))){
+                pw.println("11220000");
+                pw.println("22110000");
+                pw.println("12210000");
+                pw.println("21120000");
+                pw.println("00001100");
+                pw.println("00002200");
+            }else if(defaultName.equals(getString(R.string.delphinus))){
+                pw.println("11000000");
+                pw.println("22000000");
+                pw.println("12001000");
+                pw.println("21002000");
+                pw.println("00110000");
+                pw.println("00220000");
+            }else if(defaultName.equals(getString(R.string.ctenophora))){
+                pw.println("11000000");
+                pw.println("22000000");
+                pw.println("12220000");
+                pw.println("21110000");
+                pw.println("00001100");
+                pw.println("00002200");
+            }
+            pw.flush();
+            pw.close();
+            f.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(this, "File exported to "+file.getPath(),Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -127,52 +188,11 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         switch(id){
             case R.id.addMotorTemplate:
-                Toast.makeText(setup_MultiMotorAllocationActivity.this,Integer.toString(sliderShow.getCurrentPosition()),Toast.LENGTH_LONG).show();
-
-                LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT
-                        ,LinearLayout.LayoutParams.MATCH_PARENT);
-                layout.setMargins(16,0,16,0);
-                final EditText adEditText = new EditText(setup_MultiMotorAllocationActivity.this);
-                adEditText.setLayoutParams(layout);
-                adEditText.setHint("You Must Enter The File Name Here");
-                adEditText.setText("New_Pofile");
-                adEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        adEditText.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                InputMethodManager inputMethodManager= (InputMethodManager) setup_MultiMotorAllocationActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                                inputMethodManager.showSoftInput(adEditText, InputMethodManager.SHOW_IMPLICIT);
-                            }
-                        });
-                    }
-                });
-                adEditText.requestFocus();
-                new AlertDialog.Builder(setup_MultiMotorAllocationActivity.this)
-                        .setTitle("New profile name")
-                        .setView(adEditText)
-                        .setPositiveButton("Create", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String fileName = adEditText.getText().toString().trim();
-                                if (fileName.isEmpty()||fileName.length()==0||fileName.equals("")|| TextUtils.isEmpty(fileName)) {
-                                }else{
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString(FILE_NAME, fileName);
-                                    Intent intent = new Intent(setup_MultiMotorAllocationActivity.this, EditMotorAllocationProfiles.class);
-                                    intent.putExtras(bundle);
-                                    startActivityForResult(intent, TO_EIDT_RESULT_CODE);
-                                }
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-                        .show();
+                Bundle bundle = new Bundle();
+                bundle.putString(FILE_NAME, "Motor_Allocation_SETUP");
+                Intent intent = new Intent(setup_MultiMotorAllocationActivity.this, EditMotorAllocationProfiles.class);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, TO_EIDT_RESULT_CODE);
                 break;
         }
 

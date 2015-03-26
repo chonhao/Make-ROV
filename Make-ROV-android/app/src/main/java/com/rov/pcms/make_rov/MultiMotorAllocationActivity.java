@@ -167,52 +167,11 @@ public class MultiMotorAllocationActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         switch(id){
             case R.id.addMotorTemplate:
-                Toast.makeText(MultiMotorAllocationActivity.this,Integer.toString(sliderShow.getCurrentPosition()),Toast.LENGTH_LONG).show();
-
-                LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT
-                        ,LinearLayout.LayoutParams.MATCH_PARENT);
-                layout.setMargins(16,0,16,0);
-                final EditText adEditText = new EditText(MultiMotorAllocationActivity.this);
-                adEditText.setLayoutParams(layout);
-                adEditText.setHint("You Must Enter The File Name Here");
-                adEditText.setText("New_Pofile");
-                adEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        adEditText.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                InputMethodManager inputMethodManager= (InputMethodManager) MultiMotorAllocationActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                                inputMethodManager.showSoftInput(adEditText, InputMethodManager.SHOW_IMPLICIT);
-                            }
-                        });
-                    }
-                });
-                adEditText.requestFocus();
-                new AlertDialog.Builder(MultiMotorAllocationActivity.this)
-                        .setTitle("New profile name")
-                        .setView(adEditText)
-                        .setPositiveButton("Create", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String fileName = adEditText.getText().toString().trim();
-                                if (fileName.isEmpty()||fileName.length()==0||fileName.equals("")|| TextUtils.isEmpty(fileName)) {
-                                }else{
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString(FILE_NAME, fileName);
-                                    Intent intent = new Intent(MultiMotorAllocationActivity.this, EditMotorAllocationProfiles.class);
-                                    intent.putExtras(bundle);
-                                    startActivityForResult(intent, TO_EIDT_RESULT_CODE);
-                                }
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-                        .show();
+                Bundle bundle = new Bundle();
+                bundle.putString(FILE_NAME, "Motor_Allocation");
+                Intent intent = new Intent(MultiMotorAllocationActivity.this, EditMotorAllocationProfiles.class);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, TO_EIDT_RESULT_CODE);
                 break;
         }
 

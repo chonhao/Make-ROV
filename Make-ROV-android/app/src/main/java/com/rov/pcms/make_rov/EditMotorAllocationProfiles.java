@@ -3,6 +3,7 @@ package com.rov.pcms.make_rov;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -44,6 +45,7 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
     private String prefrenceName;
     private int currentMovement;
     private String currentMovementString;
+    private String startActivityTAG;
 //--------------------File writing values------------------------------------
     private String TAG = "File writing";
     private File fileList2[];
@@ -59,6 +61,7 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar2);
         toolbar.setBackground(getResources().getDrawable(R.color.motor_act_primaryColor));
         setSupportActionBar(toolbar);
+        setTitle("Custom Motor Allocation");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -95,7 +98,8 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
             "FORWARD","BACKWARD","LEFT TURN","RIGHT TURN","UPWARD","DOWNWARD"
         };
         Bundle bundle = getIntent().getExtras();
-        prefrenceName = bundle.getString(MultiMotorAllocationActivity.FILE_NAME);
+        prefrenceName = "Motor_Allocation";
+        startActivityTAG = bundle.getString(MultiMotorAllocationActivity.FILE_NAME);
         try {
             fileList2 = _context.getExternalFilesDirs(Environment.DIRECTORY_DOWNLOADS);
             extFile = fileList2[1];
@@ -219,7 +223,15 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
             }
 
             Toast.makeText(this, "File exported to "+file.getPath(),Toast.LENGTH_LONG).show();
-            finish();
+            if(startActivityTAG.equals("Motor_Allocation"))
+                finish();
+            else if(startActivityTAG.equals("Motor_Allocation_SETUP")){
+                //nextPage
+                SharedPreferences sharedPreferences1 = getSharedPreferences(BasicInformationActivity.ROV_BASIC_INFORMATION,MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences1.edit();
+                editor.putString(BasicInformationActivity.FIRST_TIME_SETUP,"false").apply();
+                startActivity(new Intent(EditMotorAllocationProfiles.this,BasicInformationActivity.class));
+            }
         }
 
 
