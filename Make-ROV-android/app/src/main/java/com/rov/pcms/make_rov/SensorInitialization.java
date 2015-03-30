@@ -1,19 +1,49 @@
 package com.rov.pcms.make_rov;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 
 public class SensorInitialization extends ActionBarActivity {
 //------------UI class init values-----------------------------------------------
     private final int SENSOR_AMOUNT = 4;
-    private Button[] sensorBtn = new Button[SENSOR_AMOUNT];
+    private Spinner UIsensorInitSpinner;
+    private Spinner UIsensorTypeSpinner;
+    private EditText UIsensorName, UIsensorUnit, UIsensorFormula;
+
 //-------------Shared preferences init values------------------------------------
+    private SharedPreferences[] sharedPreferencesSensor = new SharedPreferences[5];
+    public final String SENSOR_PREFERENCE_TAG = "sensor-preference-tag";
+    public final String SENSOR_TYPE_TAG = "sensor-type-tag";
+    public final String SENSOR_UNIT_TAG = "sensor-unit-tag";
+    public final String SENSOR_FORMULA_TAG = "sensor-formula-tag";
+//-------------other values------------------------------------
+    public String[] SENSOR_SELECTION= {
+        "Sensor 1 OUTLET", "Sensor 2 OUTLET",
+        "Sensor 3 OUTLET", "Sensor 4 OUTLET",
+    };
+
+    public String[] SENSOR_TYPE ={
+            "Select One...",
+            "Temperature Sensor", "Resistance Sensor",
+            "Other",
+    };
+//-------------Current selection---------------------------------
+    private String currentName, currentUnit, currentFormula;
+    private int currentType = 0;
+    private int currentSelected = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,22 +55,122 @@ public class SensorInitialization extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        UIsensorInitSpinner = (Spinner)findViewById(R.id.sensorInitSpinner);
+        ArrayAdapter<String> sensorArrayAdapter = new ArrayAdapter<String>(SensorInitialization.this,
+                android.R.layout.simple_spinner_item,SENSOR_SELECTION);
+        sensorArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        UIsensorInitSpinner.setAdapter(sensorArrayAdapter);
+
+        UIsensorTypeSpinner = (Spinner)findViewById(R.id.sensorTypeSpinner);
+        ArrayAdapter<String> sensorTypeArrayAdapter = new ArrayAdapter<String>(SensorInitialization.this,
+                android.R.layout.simple_spinner_item,SENSOR_TYPE);
+        sensorTypeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        UIsensorTypeSpinner.setAdapter(sensorTypeArrayAdapter);
+
+        UIsensorName = (EditText)findViewById(R.id.sensorNameEditText);
+        UIsensorUnit = (EditText)findViewById(R.id.sensorUnitEditText);
+        UIsensorFormula = (EditText)findViewById(R.id.sensorFormulaEditText);
+//------------------Shared Preference Init---------------------------------------
+        sharedPreferencesSensor[0] = getSharedPreferences(SENSOR_SELECTION[0],MODE_PRIVATE);
+        sharedPreferencesSensor[1] = getSharedPreferences(SENSOR_SELECTION[1],MODE_PRIVATE);
+        sharedPreferencesSensor[2] = getSharedPreferences(SENSOR_SELECTION[2],MODE_PRIVATE);
+        sharedPreferencesSensor[3] = getSharedPreferences(SENSOR_SELECTION[3],MODE_PRIVATE);
+
+        UIsensorInitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                currentSelected = position;
+                currentName = sharedPreferencesSensor[position].getString(SENSOR_SELECTION[position],"");
+                UIsensorName.setText(currentName);
+
+                currentType = Integer.parseInt(
+                        sharedPreferencesSensor[position].getString(SENSOR_SELECTION[position]+SENSOR_TYPE_TAG,"0"));
+                UIsensorTypeSpinner.setSelection(currentType);
+
+                currentUnit = sharedPreferencesSensor[position].getString(SENSOR_SELECTION[position]+SENSOR_UNIT_TAG,"");
+                UIsensorUnit.setText(currentUnit);
+
+                currentFormula = sharedPreferencesSensor[position].getString(SENSOR_SELECTION[position]+SENSOR_FORMULA_TAG,"");
+                UIsensorFormula.setText(currentFormula);
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
 //------------------components init----------------------------------------------
-        sensorBtn[0] = (Button) findViewById(R.id.sensor1Btn);
-        sensorBtn[1] = (Button) findViewById(R.id.sensor2Btn);
-        sensorBtn[2] = (Button) findViewById(R.id.sensor3Btn);
-        sensorBtn[3] = (Button) findViewById(R.id.sensor4Btn);
 //------------------Additional setup---------------------------------------------
 //------------------Component listeners------------------------------------------
-        for(int i=0;i<SENSOR_AMOUNT;i++){
-            final int tempi = i;
-            sensorBtn[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        UIsensorName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                }
-            });
-        }
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                currentName = UIsensorName.getText().toString();
+                SharedPreferences.Editor editor = sharedPreferencesSensor[currentSelected].edit();
+                editor.putString(SENSOR_SELECTION[currentSelected],currentName);
+                editor.apply();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        UIsensorTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                currentType = position;
+                SharedPreferences.Editor editor = sharedPreferencesSensor[currentSelected].edit();
+                editor.putString(SENSOR_SELECTION[currentSelected]+SENSOR_TYPE_TAG,Integer.toString(currentType));
+                editor.apply();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        UIsensorUnit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                currentUnit = UIsensorUnit.getText().toString();
+                SharedPreferences.Editor editor = sharedPreferencesSensor[currentSelected].edit();
+                editor.putString(SENSOR_SELECTION[currentSelected]+SENSOR_UNIT_TAG,currentUnit);
+                editor.apply();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        UIsensorFormula.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                currentFormula = UIsensorFormula.getText().toString();
+                SharedPreferences.Editor editor = sharedPreferencesSensor[currentSelected].edit();
+                editor.putString(SENSOR_SELECTION[currentSelected]+SENSOR_FORMULA_TAG,currentFormula);
+                editor.apply();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
 

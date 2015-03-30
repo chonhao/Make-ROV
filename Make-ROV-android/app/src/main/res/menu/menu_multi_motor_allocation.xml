@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.rov.pcms.make_rov.MultiMotorAllocationActivity">
     <item android:id="@+id/addMotorTemplate" android:title="CUSTOM"
-        android:orderInCategory="100" app:showAsAction="always"
+        android:orderInCategory="100" app:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_loupe_white_24dp"/>
 
 </menu>
