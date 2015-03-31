@@ -57,14 +57,23 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_motor_allocation_profiles);
+//-----------------------Early Init-----------------------------------------
+        Bundle bundle = getIntent().getExtras();
+        prefrenceName = "Motor_Allocation";
+        startActivityTAG = bundle.getString(MultiMotorAllocationActivity.FILE_NAME);
 //-----------------------UI init-----------------------------------------------
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar2);
         toolbar.setBackground(getResources().getDrawable(R.color.motor_act_primaryColor));
         setSupportActionBar(toolbar);
-        setTitle("Custom Motor Allocation");
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Custom Allocation");
+        if(startActivityTAG.equals("Motor_Allocation")){
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        else if(startActivityTAG.equals("Motor_Allocation_SETUP")){
+        }
+
 
         editMovements[0] = (Button)findViewById(R.id.editMotorForwardBtn);
         editMovements[1] = (Button)findViewById(R.id.editMotorBackwardBtn);
@@ -97,9 +106,7 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
         editMovementsString = new String[]{
             "FORWARD","BACKWARD","LEFT TURN","RIGHT TURN","UPWARD","DOWNWARD"
         };
-        Bundle bundle = getIntent().getExtras();
-        prefrenceName = "Motor_Allocation";
-        startActivityTAG = bundle.getString(MultiMotorAllocationActivity.FILE_NAME);
+
         try {
             fileList2 = _context.getExternalFilesDirs(Environment.DIRECTORY_DOWNLOADS);
             extFile = fileList2[1];
@@ -197,6 +204,7 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -227,10 +235,9 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
                 finish();
             else if(startActivityTAG.equals("Motor_Allocation_SETUP")){
                 //nextPage
-                SharedPreferences sharedPreferences1 = getSharedPreferences(BasicInformationActivity.ROV_BASIC_INFORMATION,MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences1.edit();
-                editor.putString(BasicInformationActivity.FIRST_TIME_SETUP,"false").apply();
-                startActivity(new Intent(EditMotorAllocationProfiles.this,BasicInformationActivity.class));
+
+                startActivity(new Intent(EditMotorAllocationProfiles.this,setup_SensorInitialization.class));
+                overridePendingTransition(R.anim.left_to_right,R.anim.right_to_left);
             }
         }
 
@@ -239,6 +246,13 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.left_to_right_close,R.anim.right_to_left_close);
+        moveTaskToBack(false);
+    }
     private String getCurrentMovementValueString(){
         return Arrays.toString(outletStatusBtnContent);
     }

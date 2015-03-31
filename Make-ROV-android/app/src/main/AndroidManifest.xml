@@ -9,11 +9,11 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        >
+        android:windowSoftInputMode="adjustResize">
         <activity
             android:name=".BasicInformationActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
             android:name=".MultiMotorAllocationActivity"
             android:label="@string/title_activity_multi_motor_allocation"
             android:parentActivityName=".BasicInformationActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rov.pcms.make_rov.BasicInformationActivity" />
@@ -33,7 +33,7 @@
             android:name=".EditMotorAllocationProfiles"
             android:label="@string/title_activity_edit_motor_allocation_profiles"
             android:parentActivityName=".MultiMotorAllocationActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rov.pcms.make_rov.MultiMotorAllocationActivity" />
@@ -42,7 +42,8 @@
             android:name=".SensorInitialization"
             android:label="@string/title_activity_sensor_initialization"
             android:parentActivityName=".BasicInformationActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rov.pcms.make_rov.BasicInformationActivity" />
@@ -50,13 +51,13 @@
         <activity
             android:name=".setup_BasicInformationActivity"
             android:label="@string/title_activity_setup__basic_information"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".setup_BasicInformationActivity_2"
             android:label="@string/title_activity_setup__basic_information_activity_2"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".setup_BasicInformationActivity" >
+            android:parentActivityName=".setup_BasicInformationActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rov.pcms.make_rov.setup_BasicInformationActivity" />
@@ -64,11 +65,20 @@
         <activity
             android:name=".setup_MultiMotorAllocationActivity"
             android:label="@string/title_activity_setup__multi_motor_allocation"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".setup_BasicInformationActivity_2" >
+            android:parentActivityName=".setup_BasicInformationActivity_2"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rov.pcms.make_rov.setup_BasicInformationActivity_2" />
+        </activity>
+        <activity
+            android:name=".setup_SensorInitialization"
+            android:label="@string/title_activity_setup__sensor_initialization"
+            android:parentActivityName=".setup_MultiMotorAllocationActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rov.pcms.make_rov.setup_MultiMotorAllocationActivity" />
         </activity>
     </application>
 

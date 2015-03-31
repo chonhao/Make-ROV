@@ -55,6 +55,7 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar2);
         toolbar.setBackground(getResources().getDrawable(R.color.motor_act_primaryColor));
         setSupportActionBar(toolbar);
+        setTitle("Multi Motor Allocation");
 
         setTemplateProfiles = (Button)findViewById(R.id.setMotorProfileBtn);
         backFab = (FloatingActionButton)findViewById(R.id.previousFab);
@@ -105,9 +106,8 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 position = sliderShow.getCurrentPosition();
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(BasicInformationActivity.FIRST_TIME_SETUP,"false").apply();
-                startActivity(new Intent(setup_MultiMotorAllocationActivity.this,BasicInformationActivity.class));
+                startActivity(new Intent(setup_MultiMotorAllocationActivity.this,setup_SensorInitialization.class));
+                overridePendingTransition(R.anim.left_to_right,R.anim.right_to_left);
                 switch (position){
                     case 0:
                         loadDefaults(getString(R.string.eagleRay));
@@ -193,6 +193,7 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
                 Intent intent = new Intent(setup_MultiMotorAllocationActivity.this, EditMotorAllocationProfiles.class);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, TO_EIDT_RESULT_CODE);
+                overridePendingTransition(R.anim.left_to_right,R.anim.right_to_left);
                 break;
         }
 

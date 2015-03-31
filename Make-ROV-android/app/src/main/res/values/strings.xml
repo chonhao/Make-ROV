@@ -33,4 +33,8 @@
     <string name="delphinus">Delphinus</string>
     <string name="ctenophora">ctenophora</string>
 
+    <string name="sensorInitIntroduction">\t\tIn this page, you\'ll need to fill in every information for individual sensors.
+    Choose the sensor you want to initialize from the spinner below.</string>
+    <string name="title_activity_setup__sensor_initialization">Sensor Initialization</string>
+
 </resources>

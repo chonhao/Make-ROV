@@ -4,7 +4,7 @@
     tools:context="com.rov.pcms.make_rov.EditMotorAllocationProfiles">
     <!--<item android:id="@+id/action_settings" android:title="@string/action_settings"-->
         <!--android:orderInCategory="100" app:showAsAction="never" />-->
-    <item android:id="@+id/exportMotorProfile" android:title="Export"
-        android:orderInCategory="250" app:showAsAction="ifRoom|withText"
-        android:icon="@drawable/ic_launch_white_24dp"/>
+    <item android:id="@+id/exportMotorProfile" android:title="EXPORT"
+        android:orderInCategory="250" app:showAsAction="always|withText"/>
+        <!--android:icon="@drawable/ic_launch_white_24dp"-->
 </menu>
