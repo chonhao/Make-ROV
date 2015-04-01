@@ -6,11 +6,11 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="features_array">
-        <item>\n\n\nBasic ROV Information\n</item>
+        <item>Sensor Monitor</item>
+        <item>Basic ROV Information</item>
         <item>Multi Motor Allocation</item>
         <item>Sensor Initialization</item>
         <item>Payload Tools Allocation</item>
-        <item>Sensor Monitor</item>
     </string-array>
 
     <string name="title_activity_multi_motor_allocation">Multi Motor Allocation</string>
@@ -36,5 +36,6 @@
     <string name="sensorInitIntroduction">\t\tIn this page, you\'ll need to fill in every information for individual sensors.
     Choose the sensor you want to initialize from the spinner below.</string>
     <string name="title_activity_setup__sensor_initialization">Sensor Initialization</string>
+    <string name="title_activity_sensor_moitor">Sensor Moitor</string>
 
 </resources>

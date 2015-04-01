@@ -7,6 +7,7 @@
 
     <color name="motor_act_primaryColor">#03A9F4</color>
     <color name="SensorInit_act_primaryColor">#00BCD4</color>
+    <color name="BasicInformation_act_primaryColor">#009688</color>
 
 
 </resources>

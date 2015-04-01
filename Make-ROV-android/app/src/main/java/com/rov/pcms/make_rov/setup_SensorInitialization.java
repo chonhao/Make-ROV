@@ -60,6 +60,7 @@ public class setup_SensorInitialization extends ActionBarActivity {
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         UIsensorInitSpinner = (Spinner)findViewById(R.id.sensorInitSpinner);
         ArrayAdapter<String> sensorArrayAdapter = new ArrayAdapter<String>(setup_SensorInitialization.this,
                 android.R.layout.simple_spinner_item,SENSOR_SELECTION);
@@ -125,7 +126,7 @@ public class setup_SensorInitialization extends ActionBarActivity {
                 SharedPreferences sharedPreferences1 = getSharedPreferences(BasicInformationActivity.ROV_BASIC_INFORMATION,MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences1.edit();
                 editor.putString(BasicInformationActivity.FIRST_TIME_SETUP,"false").apply();
-                startActivity(new Intent(setup_SensorInitialization.this,BasicInformationActivity.class));
+                startActivity(new Intent(setup_SensorInitialization.this,SensorMoitor.class));
             }
         });
         UIsensorName.addTextChangedListener(new TextWatcher() {

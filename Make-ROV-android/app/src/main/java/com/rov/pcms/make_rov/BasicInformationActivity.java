@@ -39,10 +39,10 @@ public class BasicInformationActivity extends ActionBarActivity {
     public  static final String FIRST_TIME_SETUP = "first-time-setup";
 //------------UI class init values-----------------------------------------------
     public static String[] navBarChoices;
-    private DrawerLayout drawerLayout;
-    private ListView drawerList;
-    private android.support.v7.app.ActionBarDrawerToggle drawerListener;
-    MyAdapter myAdapter;
+//    private DrawerLayout drawerLayout;
+//    private ListView drawerList;
+//    private android.support.v7.app.ActionBarDrawerToggle drawerListener;
+//    MyAdapter myAdapter;
 
     private static Button motorMinus;
     private static Button motorPlus;
@@ -75,6 +75,7 @@ public class BasicInformationActivity extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setBackground(getResources().getDrawable(R.color.BasicInformation_act_primaryColor));
 
         motorMinus = (Button)findViewById(R.id.motorMinus);
         motorPlus = (Button)findViewById(R.id.motorPlus);
@@ -86,38 +87,38 @@ public class BasicInformationActivity extends ActionBarActivity {
         sensorNumTextView = (TextView)findViewById(R.id.sensorNumTextView);
         payloadNumTextView = (TextView)findViewById(R.id.payloadNumTextView);
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        drawerList = (ListView)findViewById(R.id.left_drawer);
-        myAdapter=new MyAdapter(this);
-        drawerList.setAdapter(myAdapter);
-        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(BasicInformationActivity.this, Long.toString(id), Toast.LENGTH_SHORT).show();
-                switch ((int)id) {
-                    case 1:
-                         startActivity(new Intent(BasicInformationActivity.this, MultiMotorAllocationActivity.class));
-                        break;
-                    case 2:
-                        startActivity(new Intent(BasicInformationActivity.this, SensorInitialization.class));
-                        break;
-                }
-                drawerLayout.closeDrawer(drawerList);
-            }
-        });
-        drawerListener = new android.support.v7.app.ActionBarDrawerToggle(this,drawerLayout,null,0,0){
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-
-            }
-        };
-        drawerLayout.setDrawerListener(drawerListener);
+//        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+//        drawerList = (ListView)findViewById(R.id.left_drawer);
+//        myAdapter=new MyAdapter(this);
+//        drawerList.setAdapter(myAdapter);
+//        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+////                Toast.makeText(BasicInformationActivity.this, Long.toString(id), Toast.LENGTH_SHORT).show();
+//                switch ((int)id) {
+//                    case 1:
+//                         startActivity(new Intent(BasicInformationActivity.this, MultiMotorAllocationActivity.class));
+//                        break;
+//                    case 2:
+//                        startActivity(new Intent(BasicInformationActivity.this, SensorInitialization.class));
+//                        break;
+//                }
+//                drawerLayout.closeDrawer(drawerList);
+//            }
+//        });
+//        drawerListener = new android.support.v7.app.ActionBarDrawerToggle(this,drawerLayout,null,0,0){
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                super.onDrawerClosed(drawerView);
+//            }
+//
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//
+//            }
+//        };
+//        drawerLayout.setDrawerListener(drawerListener);
 //------------------components init-------------------------------------
         rovNameEditText = (EditText)findViewById(R.id.rovNameEditText);
 
@@ -219,17 +220,14 @@ public class BasicInformationActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        moveTaskToBack(false);
+        finish();
+        moveTaskToBack(true);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        drawerListener.syncState();
+//        drawerListener.syncState();
 
     }
 
@@ -248,20 +246,21 @@ public class BasicInformationActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == android.R.id.home) {
+            this.finish();
             return true;
         }
 
-        if(drawerListener.onOptionsItemSelected(item)){
-            return true;
-        }
+//        if(drawerListener.onOptionsItemSelected(item)){
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        drawerListener.onConfigurationChanged(newConfig);
+//        drawerListener.onConfigurationChanged(newConfig);
         super.onConfigurationChanged(newConfig);
     }
 
