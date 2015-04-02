@@ -24,16 +24,15 @@ public class SensorInitialization extends ActionBarActivity {
     private EditText UIsensorName, UIsensorUnit, UIsensorFormula;
 
 //-------------Shared preferences init values------------------------------------
+    private SharedPreferences sharedPreferences;
     private SharedPreferences[] sharedPreferencesSensor = new SharedPreferences[5];
     public final String SENSOR_PREFERENCE_TAG = "sensor-preference-tag";
     public final String SENSOR_TYPE_TAG = "sensor-type-tag";
     public final String SENSOR_UNIT_TAG = "sensor-unit-tag";
     public final String SENSOR_FORMULA_TAG = "sensor-formula-tag";
 //-------------other values------------------------------------
-    public String[] SENSOR_SELECTION= {
-        "Sensor 1 OUTLET", "Sensor 2 OUTLET",
-        "Sensor 3 OUTLET", "Sensor 4 OUTLET",
-    };
+    public String[] SENSOR_SELECTION;
+
 
     public String[] SENSOR_TYPE ={
             "Select One...",
@@ -56,6 +55,12 @@ public class SensorInitialization extends ActionBarActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        sharedPreferences = getSharedPreferences(BasicInformationActivity.ROV_BASIC_INFORMATION,MODE_PRIVATE);
+        int tempSensorNum = Integer.parseInt(sharedPreferences.getString(BasicInformationActivity.SENSOR_NUM,"0"));
+        SENSOR_SELECTION = new String[tempSensorNum];
+        if(tempSensorNum ==0){finish();}
+        //Early Exit
+
         UIsensorInitSpinner = (Spinner)findViewById(R.id.sensorInitSpinner);
         ArrayAdapter<String> sensorArrayAdapter = new ArrayAdapter<String>(SensorInitialization.this,
                 android.R.layout.simple_spinner_item,SENSOR_SELECTION);
@@ -72,10 +77,12 @@ public class SensorInitialization extends ActionBarActivity {
         UIsensorUnit = (EditText)findViewById(R.id.sensorUnitEditText);
         UIsensorFormula = (EditText)findViewById(R.id.sensorFormulaEditText);
 //------------------Shared Preference Init---------------------------------------
-        sharedPreferencesSensor[0] = getSharedPreferences(SENSOR_SELECTION[0],MODE_PRIVATE);
-        sharedPreferencesSensor[1] = getSharedPreferences(SENSOR_SELECTION[1],MODE_PRIVATE);
-        sharedPreferencesSensor[2] = getSharedPreferences(SENSOR_SELECTION[2],MODE_PRIVATE);
-        sharedPreferencesSensor[3] = getSharedPreferences(SENSOR_SELECTION[3],MODE_PRIVATE);
+
+        for(int i=0;i<tempSensorNum;i++){
+            SENSOR_SELECTION[i] = "Sensor "+(i+1)+" OUTLET";
+            sharedPreferencesSensor[i] = getSharedPreferences(SENSOR_SELECTION[i],MODE_PRIVATE);
+        }
+
 
         UIsensorInitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

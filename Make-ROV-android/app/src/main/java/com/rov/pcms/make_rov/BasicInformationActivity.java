@@ -30,9 +30,9 @@ public class BasicInformationActivity extends ActionBarActivity {
 
     final private int MAX_SENSOR_NUM = 4;
     final private int MAX_OUTPUT_NUM = 8;
-    final private String MOTOR_NUM = "motor-num";
-    final private String SENSOR_NUM = "sensor-num";
-    final private String PAYLOAD_NUM = "payload-num";
+    final public static String MOTOR_NUM = "motor-num";
+    final public static String SENSOR_NUM = "sensor-num";
+    final public static String PAYLOAD_NUM = "payload-num";
     //-------------Shared preferences init values-------------------------------------
     public  static final String ROV_BASIC_INFORMATION = "rov-basic-information";
     private static final String ROV_NAME = "rov-name";
@@ -220,8 +220,9 @@ public class BasicInformationActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
+        startActivity(new Intent(BasicInformationActivity.this,SensorMoitor.class));
         finish();
-        moveTaskToBack(true);
+        moveTaskToBack(false);
     }
 
     @Override

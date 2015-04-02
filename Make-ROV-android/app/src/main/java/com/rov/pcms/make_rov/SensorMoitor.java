@@ -41,7 +41,7 @@ public class SensorMoitor extends ActionBarActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Make-ROV Sensor Monitor");
-        
+
         sharedPreferences = getSharedPreferences(BasicInformationActivity.ROV_BASIC_INFORMATION,MODE_PRIVATE);
         if(!sharedPreferences.getString(BasicInformationActivity.FIRST_TIME_SETUP,"true").equals("false")) //debug
             startActivity(new Intent(SensorMoitor.this,setup_BasicInformationActivity.class));

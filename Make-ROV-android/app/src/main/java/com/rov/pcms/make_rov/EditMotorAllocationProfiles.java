@@ -23,7 +23,7 @@ import java.util.Arrays;
 
 public class EditMotorAllocationProfiles extends ActionBarActivity {
 //---------------------UI components init-----------------------------------
-    private final int MOTORS_AMOUNT = 8;
+    public static final int MOTORS_AMOUNT = 8;
     private final int MOTORS_MOVEMENTS_AMOUNT = 6;
     private Button[] editMovements = new Button[MOTORS_MOVEMENTS_AMOUNT];
     private String[] editMovementsString = new String[MOTORS_MOVEMENTS_AMOUNT];
@@ -217,6 +217,7 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
             try {
                 f = new FileOutputStream(file);
                 pw = new PrintWriter(f);
+                pw.println(Integer.toString(MOTORS_AMOUNT));
                 for(int i=0;i<MOTORS_MOVEMENTS_AMOUNT;i++){
                     final int tempi = i;
 //                    Log.i("export " + tempi, sharedPreferences.getString(editMovementsString[tempi], "[0, 0, 0, 0, 0, 0, 0, 0]"));
