@@ -132,6 +132,7 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
             f = new FileOutputStream(file);
             pw = new PrintWriter(f);
             if(defaultName.equals(getString(R.string.eagleRay))){
+                pw.println(Integer.toString(EditMotorAllocationProfiles.MOTORS_AMOUNT));
                 pw.println("11220000");
                 pw.println("22110000");
                 pw.println("12210000");
@@ -139,6 +140,7 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
                 pw.println("00001100");
                 pw.println("00002200");
             }else if(defaultName.equals(getString(R.string.delphinus))){
+                pw.println(Integer.toString(EditMotorAllocationProfiles.MOTORS_AMOUNT));
                 pw.println("11000000");
                 pw.println("22000000");
                 pw.println("12001000");
@@ -146,6 +148,7 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
                 pw.println("00110000");
                 pw.println("00220000");
             }else if(defaultName.equals(getString(R.string.ctenophora))){
+                pw.println(Integer.toString(EditMotorAllocationProfiles.MOTORS_AMOUNT));
                 pw.println("11000000");
                 pw.println("22000000");
                 pw.println("12220000");
