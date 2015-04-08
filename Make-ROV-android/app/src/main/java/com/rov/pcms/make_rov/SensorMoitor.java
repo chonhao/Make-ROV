@@ -10,6 +10,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,14 +35,16 @@ import com.github.mikephil.charting.utils.Highlight;
 import java.util.ArrayList;
 
 
-public class SensorMoitor extends ActionBarActivity implements OnChartValueSelectedListener {
+public class SensorMoitor extends ActionBarActivity {
     //---------------ui--------------------------------
     public static String[] navBarChoices;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private android.support.v7.app.ActionBarDrawerToggle drawerListener;
     MyAdapter myAdapter;
-    public static LineChart sensor1chart;
+    private static ChartGraph sensor1chart = new ChartGraph();
+    private static ChartGraph sensor2chart = new ChartGraph();
+    private static ChartGraph sensor3chart = new ChartGraph();
 
 
     //------------shared prefrence-------------
@@ -103,23 +107,14 @@ public class SensorMoitor extends ActionBarActivity implements OnChartValueSelec
         };
         drawerLayout.setDrawerListener(drawerListener);
 //---------------custom action starts-----------------------------
-        sensor1chart = (LineChart)findViewById(R.id.sensor1chart);
-        sensor1chart.setOnChartValueSelectedListener(this);
-        sensor1chart.setDrawGridBackground(false);
-        sensor1chart.setDescription("");
+        sensor1chart.lineChart = (LineChart)findViewById(R.id.sensor1chart);
+        sensor1chart.chartInit();
 
-        // add an empty data object
-        sensor1chart.setData(new LineData());
-        sensor1chart.getXAxis().setEnabled(false);
-        sensor1chart.setDrawBorders(true);
-        sensor1chart.getAxisRight().setEnabled(false);
-        sensor1chart.setDrawGridBackground(false);
-//        mChart.getXAxis().setDrawLabels(false);
-//        mChart.getXAxis().setDrawGridLines(false);
+        sensor2chart.lineChart = (LineChart)findViewById(R.id.sensor2chart);
+        sensor2chart.chartInit();
+        sensor3chart.lineChart = (LineChart)findViewById(R.id.sensor3chart);
+        sensor3chart.chartInit();
 
-        sensor1chart.invalidate();
-        addEntry();
-        removeLastEntry();
 
 
 
@@ -142,6 +137,22 @@ public class SensorMoitor extends ActionBarActivity implements OnChartValueSelec
 
     }
 
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            // ........
+            for(int i =0;i<=20;i++) {
+                sensor1chart.addEntry((float) (Math.random() * 10));
+                sensor2chart.addEntry((float) (Math.random() * 10));
+                sensor3chart.addEntry((float) (Math.random() * 10));
+            }
+            sensor1chart.lineChart.animateX(1000);
+            sensor2chart.lineChart.animateX(1000);
+            sensor3chart.lineChart.animateX(1000);
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -154,9 +165,10 @@ public class SensorMoitor extends ActionBarActivity implements OnChartValueSelec
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        addEntry();
-        sensor1chart.setVisibleXRange(15f);
-        sensor1chart.moveViewToX(mdata+10);
+        sensor1chart.addEntry((float)(Math.random() * 10));
+        sensor2chart.addEntry((float)(Math.random() * 10));
+        sensor3chart.addEntry((float)(Math.random() * 10));
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -216,137 +228,6 @@ public class SensorMoitor extends ActionBarActivity implements OnChartValueSelec
     }
 
     //debug
-
-    int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
-    int mdata = 0;
-    private void addEntry() {
-
-        LineData data = sensor1chart.getData();
-
-        if(data != null) {
-
-            LineDataSet set = data.getDataSetByIndex(0);
-            // set.addEntry(...); // can be called as well
-
-            if (set == null) {
-                set = createSet();
-                data.addDataSet(set);
-            }
-
-            // add a new x-value first
-            data.addXValue(set.getEntryCount() + "");
-
-            // choose a random dataSet
-            int randomDataSetIndex = (int) (Math.random() * data.getDataSetCount());
-            mdata++;
-            data.addEntry(new Entry((float) (Math.random() * 10) + mdata, set.getEntryCount()), randomDataSetIndex);
-
-            // let the chart know it's data has changed
-            sensor1chart.notifyDataSetChanged();
-
-//            mChart.setVisibleXRange(6);
-//            mChart.setVisibleYRange(30, AxisDependency.LEFT);
-//
-//            // this automatically refreshes the chart (calls invalidate())
-//            mChart.moveViewTo(data.getXValCount()-7, 55f, AxisDependency.LEFT);
-
-            // redraw the chart
-            sensor1chart.invalidate();
-        }
-    }
-    private void removeLastEntry() {
-
-        LineData data = sensor1chart.getData();
-
-        if(data != null) {
-
-            LineDataSet set = data.getDataSetByIndex(0);
-
-            if (set != null) {
-
-                Entry e = set.getEntryForXIndex(set.getEntryCount() - 1);
-
-                data.removeEntry(e, 0);
-                // or remove by index
-                // mData.removeEntry(xIndex, dataSetIndex);
-
-                sensor1chart.notifyDataSetChanged();
-                sensor1chart.invalidate();
-            }
-        }
-    }
-    private void addDataSet() {
-
-        LineData data = sensor1chart.getData();
-
-        if(data != null) {
-
-            int count = (data.getDataSetCount() + 1);
-
-            // create 10 y-vals
-            ArrayList<Entry> yVals = new ArrayList<Entry>();
-
-            if(data.getXValCount() == 0) {
-                // add 10 x-entries
-                for (int i = 0; i < 10; i++) {
-                    data.addXValue("" + (i+1));
-                }
-            }
-
-            for (int i = 0; i < data.getXValCount(); i++) {
-                yVals.add(new Entry((float) (Math.random() * 50f) + 50f * count, i));
-            }
-
-            LineDataSet set = new LineDataSet(yVals, "DataSet " + count);
-            set.setLineWidth(2.5f);
-            set.setCircleSize(4.5f);
-
-            int color = mColors[count % mColors.length];
-
-            set.setColor(color);
-            set.setCircleColor(color);
-            set.setHighLightColor(color);
-            set.setValueTextSize(10f);
-            set.setValueTextColor(color);
-
-            data.addDataSet(set);
-            sensor1chart.notifyDataSetChanged();
-            sensor1chart.invalidate();
-        }
-    }
-    private void removeDataSet() {
-
-        LineData data = sensor1chart.getData();
-
-        if(data != null) {
-
-            data.removeDataSet(data.getDataSetByIndex(data.getDataSetCount() - 1));
-
-            sensor1chart.notifyDataSetChanged();
-            sensor1chart.invalidate();
-        }
-    }
-    @Override
-    public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
-        Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    public void onNothingSelected() {
-
-    }
-    private LineDataSet createSet() {
-
-        LineDataSet set = new LineDataSet(null, "DataSet 1");
-        set.setLineWidth(2.5f);
-        set.setCircleSize(4.5f);
-        set.setColor(Color.rgb(240, 99, 99));
-        set.setCircleColor(Color.rgb(240, 99, 99));
-        set.setHighLightColor(Color.rgb(190, 190, 190));
-        set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set.setValueTextSize(10f);
-
-        return set;
-    }
 
 
 
