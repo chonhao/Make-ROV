@@ -61,7 +61,7 @@ public class SensorMoitor extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Make-ROV Sensor Monitor");
+        setTitle("Sensor Monitor");
 //-------------check if it is first run--------------------------
         sharedPreferences = getSharedPreferences(BasicInformationActivity.ROV_BASIC_INFORMATION,MODE_PRIVATE);
         if(!sharedPreferences.getString(BasicInformationActivity.FIRST_TIME_SETUP,"true").equals("false")) //debug
