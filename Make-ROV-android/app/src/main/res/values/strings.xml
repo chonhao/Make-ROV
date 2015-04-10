@@ -15,19 +15,21 @@
 
     <string name="title_activity_multi_motor_allocation">Multi Motor Allocation</string>
     <string name="motorIntroduction">\t\t\tMulti Motor Allocation lets you customise the motion of the system.
-         Customize your own allocation or select one of the template to continue.</string>
+         Select one of the templates or Customize your own profile to continue.</string>
 
     <string name="title_activity_edit_motor_allocation_profiles">Edit</string>
 
     <string name="editMotorIntroduction">\t\t\tDue to the differences of Motor Allocations, we need to know which
-        motors need to be turned on in which motions. Here are the movements you\'re required to configure.</string>
+        motors need to be turned on in which motions. Here are the movements you\'re required to configure.
+        Click EXPORT button when you\'re done.</string>
     <string name="title_activity_sensor_initialization">Sensor Initialization</string>
     <string name="title_activity_setup__basic_information">Make-ROV Setup Wizard</string>
     <string name="title_activity_setup__multi_motor_allocation">Multi Motor Setup Wizard</string>
     <string name="setupWizardIntroduction">\t\tWelcome to Make-ROV Setup Wizard. In this wizard, you\'re required to
     fill in every item below. Items can be modified anytime. Your ROV Should work after the wizard.</string>
     <string name="title_activity_setup__basic_information_activity_2">Make-ROV Setup Wizard</string>
-    <string name="rovValuesIntroduction">\t\tIn the following items, you\'re required to fill in </string>
+    <string name="rovValuesIntroduction">\t\tIn this page, you will need to fill some basic informations about your
+    ROV. Fill in the items below.</string>
 
     <string name="eagleRay">Eagle-Ray</string>
     <string name="delphinus">Delphinus</string>
