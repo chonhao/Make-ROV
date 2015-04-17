@@ -9,9 +9,10 @@ import android.util.Log;
 
 public class BluetoothThread extends Thread{
     private static final UUID SerialPortServiceClass_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private BluetoothSocket mmSocket;
+    public BluetoothSocket mmSocket;
     private BluetoothDevice mmDevice;
     private Queue<String> msgQueue; //string queue for storing message
+    public OutputStream out;
 
     BluetoothThread(BluetoothDevice device){
         mmSocket = null;
@@ -31,6 +32,7 @@ public class BluetoothThread extends Thread{
     public BluetoothDevice getMmDevice(){
         return mmDevice;
     }
+    public OutputStream getOutputStream(){return out;}
     public void AddMessage(String s){
         msgQueue.offer(s);
         Log.i("sent", "sent");
@@ -40,7 +42,7 @@ public class BluetoothThread extends Thread{
         Log.i("bleThread","run");
         try{
             mmSocket.connect();
-            OutputStream out = mmSocket.getOutputStream();
+            out = mmSocket.getOutputStream();
 
             //send message via outputstream
             while(true){

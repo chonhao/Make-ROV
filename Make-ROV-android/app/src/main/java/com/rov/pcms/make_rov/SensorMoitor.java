@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 import android.os.Handler;
 
 
@@ -46,8 +47,8 @@ public class SensorMoitor extends ActionBarActivity {
     private android.support.v7.app.ActionBarDrawerToggle drawerListener;
     MyAdapter myAdapter;
     public static ChartGraph[] sensorChart = {
-            new ChartGraph(),new ChartGraph(),
-            new ChartGraph(),new ChartGraph(),
+            new ChartGraph(), new ChartGraph(),
+            new ChartGraph(), new ChartGraph(),
     };
 
 
@@ -145,14 +146,14 @@ public class SensorMoitor extends ActionBarActivity {
             @Override
             public void handleMessage(Message message) {
                 super.handleMessage(message);
-                switch (message.what){
+                switch (message.what) {
                     case 0:
-                        Character data = (Character)message.obj;
-                        if(data == null){
-                            Log.i("handler data","null");
-                        }else {
+                        Character data = (Character) message.obj;
+                        if (data == null) {
+//                            Log.i("handler data","null");
+                        } else {
                             OnBluetoothSerialAvailable(data);
-                            Log.i("handler data",data.toString());
+//                            Log.i("handler data",data.toString());
                         }
                         break;
                     default:
@@ -168,8 +169,9 @@ public class SensorMoitor extends ActionBarActivity {
     public void onBackPressed() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
         moveTaskToBack(false);
 
     }
@@ -179,22 +181,6 @@ public class SensorMoitor extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
         drawerListener.syncState();
 
-    }
-
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
-            // ........
-            for (int i = 0; i <= 20; i++) {
-                sensorChart[1].addEntry((float) (Math.random() * 10));
-                sensorChart[2].addEntry((float) (Math.random() * 10));
-                sensorChart[3].addEntry((float) (Math.random() * 10));
-            }
-            sensorChart[1].lineChart.animateX(1000);
-            sensorChart[2].lineChart.animateX(1000);
-            sensorChart[3].lineChart.animateX(1000);
-            return true;
-        }
-        return super.onKeyUp(keyCode, event);
     }
 
     @Override
@@ -211,7 +197,7 @@ public class SensorMoitor extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
 
         int id = item.getItemId();
-            // ........
+        // ........
 //            for (int i = 0; i <= 20; i++) {
 //                sensorChart[1].addEntry((float) (Math.random() * 10));
 //                sensorChart[2].addEntry((float) (Math.random() * 10));
@@ -220,7 +206,7 @@ public class SensorMoitor extends ActionBarActivity {
 //            sensorChart[1].lineChart.animateX(1000);
 //            sensorChart[2].lineChart.animateX(1000);
 //            sensorChart[3].lineChart.animateX(1000);
-        sensorChart[1].addEntry((float) (Math.random() * 10));
+//        sensorChart[1].addEntry((float) (Math.random() * 10));
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_scan) {
             requestEnableBluetooth();
@@ -282,150 +268,163 @@ public class SensorMoitor extends ActionBarActivity {
     //Bluetooth Components
 
     private void Bluetoothinit() {
-    mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    if (mBluetoothAdapter == null) //no bluetooth support
-        return;
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) //no bluetooth support
+            return;
 
-    if (!mBluetoothAdapter.isEnabled()) { //request to open bluetooth
-        new MaterialDialog.Builder(this)
-                .title("Please turn bluetooth ON")
-                .content("Bluetooth is required in order to receive signals from your ROV." +
-                        "")
-                .positiveText("OK")
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        super.onPositive(dialog);
-                        if (!mBluetoothAdapter.isEnabled())
-                            startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 1);
-                    }
-                })
-                .show();
+        if (!mBluetoothAdapter.isEnabled()) { //request to open bluetooth
+            new MaterialDialog.Builder(this)
+                    .title("Please turn bluetooth ON")
+                    .content("Bluetooth is required in order to receive signals from your ROV." +
+                            "")
+                    .positiveText("OK")
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            super.onPositive(dialog);
+                            if (!mBluetoothAdapter.isEnabled())
+                                startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 1);
+                        }
+                    })
+                    .show();
 
-    }
+        }
 
 
 //        thread.AddMessage("connected");
-}
-    // Start a new Thread to monitor Received bluetooth data
-    public void beginListenForData(){
-    try{
-        Thread.sleep(1000);
-    }catch (InterruptedException e){}
-    try {
-        inStream = thread.getMmSocket().getInputStream();
-    } catch (IOException e){ e.printStackTrace();
     }
 
-    Thread workerThread = new Thread(new Runnable(){
-            public void run(){
-                while(!Thread.currentThread().isInterrupted() && !stopWorker){
-                    try{
+    // Start a new Thread to monitor Received bluetooth data
+    public void beginListenForData() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+        try {
+            inStream = thread.getMmSocket().getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Thread workerThread = new Thread(new Runnable() {
+            public void run() {
+                while (!Thread.currentThread().isInterrupted() && !stopWorker) {
+                    try {
                         int availableCount = inStream.available();
-                        if(availableCount > 0){
-                            char data = (char)inStream.read();
+                        if (availableCount > 0) {
+                            char data = (char) inStream.read();
                             try {
+//                                Log.i("originalData", Character.toString(data));
                                 handler.sendEmptyMessage(0);
                                 Message message = new Message();
                                 message.obj = data;
                                 handler.sendMessage(message);
 //                                OnBluetoothSerialAvailable(data);
-                            }catch (Exception e){}
+                            } catch (Exception e) {
+                            }
                         }
-                    }
-                    catch (IOException ex){
+                    } catch (IOException ex) {
                         stopWorker = true;
                     }
                 }
             }
-    });
-    workerThread.start();
-}
-    public void OnBluetoothSerialAvailable(Character serialData){
-    //Log.i("BluetoothReceived", serialData.toString());
-    if(currentReadMode==0){
-        if(serialData == SENSOR_HEADER){
-            currentReadMode=1;
-        }
-    }else if(currentReadMode ==1){
-        if(serialData == SENSOR_SERIAL_TYPE){
-            currentReadMode = 2;
-        }
-    }else if(currentReadMode == 2){
-        switch (currentCount){
-            case 1:
-                tempValue += (serialData-48)*1000;
-                currentCount = 2;
-                break;
-            case 2:
-                tempValue += (serialData-48)*100;
-                currentCount = 3;
-                break;
-            case 3:
-                tempValue += (serialData-48)*10;
-                currentCount = 4;
-                break;
-            case 4:
-                tempValue += (serialData-48);
-                currentCount = 1;
-                currentReadMode = 3;
-                break;
-            default:
-                currentCount = 1;
-        }
-    }else if(currentReadMode == 3){
-        currentSensor = serialData-48;
-        sensorValue[currentSensor] = tempValue;
-        sensorChart[currentSensor].addEntry(sensorValue[currentSensor]/*(float) (Math.random() * 10)*/);
-//        sensorChart[currentSensor].lineChart.invalidate();
-        Log.i("sensor "+(currentSensor)+" Data",Integer.toString(sensorValue[currentSensor]));
-        //reset everything after a loop
-        tempValue = 0;
-        currentReadMode = 0;
-    }
-//        Log.i("currentReadMode",Integer.toString(currentReadMode));
-}
-    private void requestEnableBluetooth(){
-    paired = mBluetoothAdapter.getBondedDevices();
-    if(paired.size() > 0){
-        for(BluetoothDevice device : paired){
-            itemList.add(device.getName());
-        }
-        itemString = new String[itemList.size()];
-        itemList.toArray(itemString);
+        });
+        workerThread.start();
     }
 
-    MaterialDialog.Builder dialog = new MaterialDialog.Builder(this);
-    dialog.title("Please Select your ROV");
-    dialog.items(itemString);
-    dialog.itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
-        @Override
-        public boolean onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
-            selected = which;
-            Log.i("BD selected",selected+"");
-            Log.i("BluetoothDeviceSelected", itemString[which]);
-            if (paired.size() > 0) {
-                for (BluetoothDevice device : paired) {
-                    if (device.getName().equals(itemString[which])) {
-                        thread = new BluetoothThread(device);
-                        thread.start();
-                        thread.AddMessage("connected");
-                        Log.i("bleThread","threadStart");
-                        beginListenForData();
-                        Toast.makeText(SensorMoitor.this,"Connecting to "+itemString[which],Toast.LENGTH_LONG).show();
-                        try{
-                            Thread.sleep(2000);
-                        }catch (InterruptedException e){}
-                        Toast.makeText(SensorMoitor.this,"Connected",Toast.LENGTH_LONG).show();
+    public void OnBluetoothSerialAvailable(Character serialData) {
+        //Log.i("BluetoothReceived", serialData.toString());
+        if (currentReadMode == 0) {
+            if (serialData == SENSOR_HEADER) {
+                currentReadMode = 1;
+            }
+        } else if (currentReadMode == 1) {
+            if (serialData == SENSOR_SERIAL_TYPE) {
+                currentReadMode = 2;
+            }
+        } else if (currentReadMode == 2) {
+            switch (currentCount) {
+                case 1:
+                    tempValue += (serialData - 48) * 1000;
+                    currentCount = 2;
+                    break;
+                case 2:
+                    tempValue += (serialData - 48) * 100;
+                    currentCount = 3;
+                    break;
+                case 3:
+                    tempValue += (serialData - 48) * 10;
+                    currentCount = 4;
+                    break;
+                case 4:
+                    tempValue += (serialData - 48);
+                    currentCount = 1;
+                    currentReadMode = 3;
+                    break;
+                default:
+                    currentCount = 1;
+            }
+        } else if (currentReadMode == 3) {
+            currentSensor = serialData - 48;
+            sensorValue[currentSensor] = tempValue;
+            sensorChart[currentSensor].addEntry(sensorValue[currentSensor]/*(float) (Math.random() * 10)*/);
+//        sensorChart[currentSensor].lineChart.invalidate();
+//        Log.i("sensor "+(currentSensor)+" Data",Integer.toString(sensorValue[currentSensor]));
+
+            //reset everything after a loop
+            tempValue = 0;
+            currentReadMode = 0;
+        }
+//        Log.i("currentReadMode",Integer.toString(currentReadMode));
+    }
+
+    private void requestEnableBluetooth() {
+        paired = mBluetoothAdapter.getBondedDevices();
+        if (paired.size() > 0) {
+            for (BluetoothDevice device : paired) {
+                itemList.add(device.getName());
+            }
+            itemString = new String[itemList.size()];
+            itemList.toArray(itemString);
+        }
+
+        MaterialDialog.Builder dialog = new MaterialDialog.Builder(this);
+        dialog.title("Please Select your ROV");
+        dialog.items(itemString);
+        dialog.itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+            @Override
+            public boolean onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
+                selected = which;
+                Log.i("BD selected", selected + "");
+                Log.i("BluetoothDeviceSelected", itemString[which]);
+                if (paired.size() > 0) {
+                    for (BluetoothDevice device : paired) {
+                        if (device.getName().equals(itemString[which])) {
+                            thread = new BluetoothThread(device);
+                            thread.start();
+                            thread.AddMessage("connected");
+                            Log.i("bleThread", "threadStart");
+                            beginListenForData();
+                            Toast.makeText(SensorMoitor.this, "Connecting to " + itemString[which], Toast.LENGTH_LONG).show();
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                            }
+                            Toast.makeText(SensorMoitor.this, "Connected", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
-            }
 
-            return false;
-        }
-    });
-    dialog.positiveText("Connect");
-    dialog.show();
-}
+                return false;
+            }
+        });
+        dialog.positiveText("Connect");
+        dialog.show();
+    }
+
+
+
+
+
 
 }
