@@ -1,12 +1,13 @@
 package com.rov.pcms.make_rov;
 
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.hardware.Sensor;
+import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -32,18 +33,19 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import javax.net.ssl.SSLEngine;
+import android.os.Handler;
 
 
 public class SensorMoitor extends ActionBarActivity {
+    //--------debug-------------
+    private android.os.Handler handler;
     //---------------ui--------------------------------
     public static String[] navBarChoices;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private android.support.v7.app.ActionBarDrawerToggle drawerListener;
     MyAdapter myAdapter;
-    private static ChartGraph[] sensorChart = {
+    public static ChartGraph[] sensorChart = {
             new ChartGraph(),new ChartGraph(),
             new ChartGraph(),new ChartGraph(),
     };
@@ -66,6 +68,7 @@ public class SensorMoitor extends ActionBarActivity {
     private static final Character SENSOR_SERIAL_TYPE = '6';
     private static int currentReadMode = 0;
     private static int currentCount = 1;
+    private static int currentSensor = 0;
     private static int tempValue = 0;
     private static int[] sensorValue = new int[5];
     boolean stopWorker = false;
@@ -137,6 +140,27 @@ public class SensorMoitor extends ActionBarActivity {
         sensorChart[3].chartInit();
 //-------------bluetooth--------------------------------------
         Bluetoothinit();
+//-------------handler----------------------------
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message message) {
+                super.handleMessage(message);
+                switch (message.what){
+                    case 0:
+                        Character data = (Character)message.obj;
+                        if(data == null){
+                            Log.i("handler data","null");
+                        }else {
+                            OnBluetoothSerialAvailable(data);
+                            Log.i("handler data",data.toString());
+                        }
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+        };
 
     }
 
@@ -196,7 +220,7 @@ public class SensorMoitor extends ActionBarActivity {
 //            sensorChart[1].lineChart.animateX(1000);
 //            sensorChart[2].lineChart.animateX(1000);
 //            sensorChart[3].lineChart.animateX(1000);
-
+        sensorChart[1].addEntry((float) (Math.random() * 10));
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_scan) {
             requestEnableBluetooth();
@@ -294,22 +318,26 @@ public class SensorMoitor extends ActionBarActivity {
     }
 
     Thread workerThread = new Thread(new Runnable(){
-        public void run(){
-            while(!Thread.currentThread().isInterrupted() && !stopWorker){
-                try{
-                    int availableCount = inStream.available();
-                    if(availableCount > 0){
-                        char data = (char)inStream.read();
-                        try {
-                            OnBluetoothSerialAvailable(data);
-                        }catch (Exception e){}
+            public void run(){
+                while(!Thread.currentThread().isInterrupted() && !stopWorker){
+                    try{
+                        int availableCount = inStream.available();
+                        if(availableCount > 0){
+                            char data = (char)inStream.read();
+                            try {
+                                handler.sendEmptyMessage(0);
+                                Message message = new Message();
+                                message.obj = data;
+                                handler.sendMessage(message);
+//                                OnBluetoothSerialAvailable(data);
+                            }catch (Exception e){}
+                        }
+                    }
+                    catch (IOException ex){
+                        stopWorker = true;
                     }
                 }
-                catch (IOException ex){
-                    stopWorker = true;
-                }
             }
-        }
     });
     workerThread.start();
 }
@@ -346,23 +374,22 @@ public class SensorMoitor extends ActionBarActivity {
                 currentCount = 1;
         }
     }else if(currentReadMode == 3){
-        sensorValue[serialData-48] = tempValue;
+        currentSensor = serialData-48;
+        sensorValue[currentSensor] = tempValue;
+        sensorChart[currentSensor].addEntry(sensorValue[currentSensor]/*(float) (Math.random() * 10)*/);
+//        sensorChart[currentSensor].lineChart.invalidate();
+        Log.i("sensor "+(currentSensor)+" Data",Integer.toString(sensorValue[currentSensor]));
+        //reset everything after a loop
         tempValue = 0;
-        Log.i("sensor "+(serialData-48)+" Data",Integer.toString(sensorValue[serialData-48]));
-        sensorChart[serialData-48+1].addEntry(sensorValue[serialData-48]);
-        sensorChart[serialData-48+1].lineChart.invalidate();
-
         currentReadMode = 0;
     }
 //        Log.i("currentReadMode",Integer.toString(currentReadMode));
 }
     private void requestEnableBluetooth(){
     paired = mBluetoothAdapter.getBondedDevices();
-    int deviceCount = 0;
     if(paired.size() > 0){
         for(BluetoothDevice device : paired){
-            deviceCount++;
-            itemList.add(/*"  "+deviceCount+". "+*/device.getName());
+            itemList.add(device.getName());
         }
         itemString = new String[itemList.size()];
         itemList.toArray(itemString);
@@ -383,6 +410,7 @@ public class SensorMoitor extends ActionBarActivity {
                         thread = new BluetoothThread(device);
                         thread.start();
                         thread.AddMessage("connected");
+                        Log.i("bleThread","threadStart");
                         beginListenForData();
                         Toast.makeText(SensorMoitor.this,"Connecting to "+itemString[which],Toast.LENGTH_LONG).show();
                         try{

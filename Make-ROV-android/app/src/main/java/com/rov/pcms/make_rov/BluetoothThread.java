@@ -3,6 +3,7 @@ package com.rov.pcms.make_rov;
 import java.io.OutputStream;
 import java.util.*;
 
+
 import android.bluetooth.*;
 import android.util.Log;
 
@@ -15,7 +16,6 @@ public class BluetoothThread extends Thread{
     BluetoothThread(BluetoothDevice device){
         mmSocket = null;
         mmDevice = device;
-
         msgQueue = new LinkedList<String>();
 
         BluetoothSocket tmp = null;
@@ -37,6 +37,7 @@ public class BluetoothThread extends Thread{
     }
     @Override
     public void run(){
+        Log.i("bleThread","run");
         try{
             mmSocket.connect();
             OutputStream out = mmSocket.getOutputStream();
@@ -48,5 +49,9 @@ public class BluetoothThread extends Thread{
                     out.write(tmpStr.getBytes());
             }
         }catch(Exception e){ e.printStackTrace(); }
+
+
     }
+
+
 }
