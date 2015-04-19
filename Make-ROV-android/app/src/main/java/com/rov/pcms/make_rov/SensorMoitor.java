@@ -39,7 +39,7 @@ import android.os.Handler;
 
 public class SensorMoitor extends ActionBarActivity {
     //--------debug-------------
-    private android.os.Handler handler;
+    private static android.os.Handler handler;
     //---------------ui--------------------------------
     public static String[] navBarChoices;
     private DrawerLayout drawerLayout;
@@ -94,11 +94,11 @@ public class SensorMoitor extends ActionBarActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
         myAdapter = new MyAdapter(this);
-        drawerList.setAdapter(myAdapter);
         LayoutInflater inflater = getLayoutInflater();
-        //add a picture in the Nav drawer as header
         ViewGroup header = (ViewGroup) inflater.inflate(R.layout.headerview, drawerList, false);
         drawerList.addHeaderView(header, null, false);
+        drawerList.setAdapter(myAdapter);
+        //add a picture in the Nav drawer as header
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
