@@ -10,7 +10,7 @@
         <item>Basic ROV Information</item>
         <item>Multi Motor Allocation</item>
         <item>Sensor Initialization</item>
-        <item>Payload Tools Allocation</item>
+        <!--<item>Payload Tools Allocation</item>-->
     </string-array>
 
     <string name="title_activity_multi_motor_allocation">Multi Motor Allocation</string>

@@ -46,6 +46,7 @@ public class SensorMoitor extends ActionBarActivity {
     private ListView drawerList;
     private android.support.v7.app.ActionBarDrawerToggle drawerListener;
     MyAdapter myAdapter;
+    private TextView[] _sensorTextView = new TextView[4];
     public static ChartGraph[] sensorChart = {
             new ChartGraph(), new ChartGraph(),
             new ChartGraph(), new ChartGraph(),
@@ -54,7 +55,7 @@ public class SensorMoitor extends ActionBarActivity {
 
     //------------shared prefrence-------------
     public SharedPreferences sharedPreferences;
-
+    private SharedPreferences[] sharedPreferencesSensor = new SharedPreferences[6];
     //------------Bluetooth Components-----------------------------------
     BluetoothAdapter mBluetoothAdapter;
     BluetoothDevice lastDevice;
@@ -74,6 +75,8 @@ public class SensorMoitor extends ActionBarActivity {
     private static int[] sensorValue = new int[5];
     boolean stopWorker = false;
     private int selected = -1;
+
+    //------------SensorReadData----------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +133,14 @@ public class SensorMoitor extends ActionBarActivity {
             }
         };
         drawerLayout.setDrawerListener(drawerListener);
+//---------------read sensor Name from shared preference---------------------
+        _sensorTextView[1] = (TextView)findViewById(R.id.sensor1name);
+        _sensorTextView[2] = (TextView)findViewById(R.id.sensor2name);
+        _sensorTextView[3] = (TextView)findViewById(R.id.sensor3name);
+        for (int i = 1; i <= 3 ; i++){
+            sharedPreferencesSensor[i] = getSharedPreferences("Sensor "+(i)+" OUTLET",MODE_PRIVATE);
+            _sensorTextView[i].setText(sharedPreferencesSensor[i].getString("Sensor "+(i)+" OUTLET","Sensor "+i+" Graph"));
+        }
 //---------------custom action starts-----------------------------
         sensorChart[1].lineChart = (LineChart) findViewById(R.id.sensor1chart);
         sensorChart[1].chartInit();
@@ -174,6 +185,15 @@ public class SensorMoitor extends ActionBarActivity {
         finish();
         moveTaskToBack(false);
 
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        for (int i = 1; i <= 3 ; i++){
+            sharedPreferencesSensor[i] = getSharedPreferences("Sensor "+(i)+" OUTLET",MODE_PRIVATE);
+            _sensorTextView[i].setText(sharedPreferencesSensor[i].getString("Sensor "+(i)+" OUTLET","Sensor "+i+" Graph"));
+        }
     }
 
     @Override
@@ -394,6 +414,7 @@ public class SensorMoitor extends ActionBarActivity {
         dialog.itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
             @Override
             public boolean onSelection(MaterialDialog materialDialog, View view, int which, CharSequence charSequence) {
+                if(which==-1){ return false; } // Early Exit
                 selected = which;
                 Log.i("BD selected", selected + "");
                 Log.i("BluetoothDeviceSelected", itemString[which]);

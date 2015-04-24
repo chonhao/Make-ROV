@@ -39,6 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_marginBottom="16dp"
+                    android:id="@+id/sensor1name"
                     android:text="Sensor 1 Graph"
                     />
 
@@ -64,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_marginBottom="16dp"
+                    android:id="@+id/sensor2name"
                     android:text="Sensor 2 Graph"
                     />
 
@@ -89,6 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_marginBottom="16dp"
+                    android:id="@+id/sensor3name"
                     android:text="Sensor 3 Graph"
                     />
 
