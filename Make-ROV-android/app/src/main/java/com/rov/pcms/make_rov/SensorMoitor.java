@@ -139,7 +139,7 @@ public class SensorMoitor extends ActionBarActivity {
         _sensorTextView[3] = (TextView)findViewById(R.id.sensor3name);
         for (int i = 1; i <= 3 ; i++){
             sharedPreferencesSensor[i] = getSharedPreferences("Sensor "+(i)+" OUTLET",MODE_PRIVATE);
-            _sensorTextView[i].setText(sharedPreferencesSensor[i].getString("Sensor "+(i)+" OUTLET","Sensor "+i+" Graph"));
+            _sensorTextView[i].setText(sharedPreferencesSensor[i].getString("Sensor "+(i)+" OUTLET","**Sensor "+i+" doesn't exists**"));
         }
 //---------------custom action starts-----------------------------
         sensorChart[1].lineChart = (LineChart) findViewById(R.id.sensor1chart);
@@ -192,7 +192,7 @@ public class SensorMoitor extends ActionBarActivity {
         super.onResume();
         for (int i = 1; i <= 3 ; i++){
             sharedPreferencesSensor[i] = getSharedPreferences("Sensor "+(i)+" OUTLET",MODE_PRIVATE);
-            _sensorTextView[i].setText(sharedPreferencesSensor[i].getString("Sensor "+(i)+" OUTLET","Sensor "+i+" Graph"));
+            _sensorTextView[i].setText(sharedPreferencesSensor[i].getString("Sensor "+(i)+" OUTLET","**Sensor "+i+" doesn't exists**"));
         }
     }
 

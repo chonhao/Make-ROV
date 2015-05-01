@@ -40,6 +40,37 @@ public class setup_BasicInformationActivity extends ActionBarActivity {
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar2);
         setSupportActionBar(toolbar);
+//------------------default SharedPreferences---------------------------
+        SharedPreferences defaultSharedPreferences = getSharedPreferences(ROV_BASIC_INFORMATION,MODE_PRIVATE);
+        SharedPreferences.Editor defaultSharedPreferencesEditor = defaultSharedPreferences.edit();
+        // first page
+        defaultSharedPreferencesEditor.putString(ROV_NAME,"Make-ROV").apply();
+        // second page
+        final String MOTOR_NUM = "motor-num";
+        final String SENSOR_NUM = "sensor-num";
+        final String PAYLOAD_NUM = "payload-num";
+        defaultSharedPreferencesEditor.putString(MOTOR_NUM,"6").apply();
+        defaultSharedPreferencesEditor.putString(SENSOR_NUM,"2").apply();
+        defaultSharedPreferencesEditor.putString(PAYLOAD_NUM,"0").apply();
+        // third page--nothing to set
+        // forth page
+        SharedPreferences[] sharedPreferencesSensor = new SharedPreferences[5];
+        SharedPreferences.Editor[] sharedPreferenceSensorEditor = new SharedPreferences.Editor[5];
+        for(int i=0;i<2;i++){
+            sharedPreferencesSensor[i] = getSharedPreferences("Sensor "+(i+1)+" OUTLET",MODE_PRIVATE);
+            sharedPreferenceSensorEditor[i] = sharedPreferencesSensor[i].edit();
+        }
+        sharedPreferenceSensorEditor[0].putString("Sensor "+(1)+" OUTLET","Temp Sensor").apply();
+        sharedPreferenceSensorEditor[0].putString("Sensor "+(1)+" OUTLET"
+                +setup_SensorInitialization.SENSOR_TYPE_TAG,Integer.toString(1)).apply();
+        sharedPreferenceSensorEditor[0].putString("Sensor "+(1)+" OUTLET"
+                +setup_SensorInitialization.SENSOR_UNIT_TAG,"C").apply();
+
+        sharedPreferenceSensorEditor[1].putString("Sensor "+(2)+" OUTLET","Resistance Sensor").apply();
+        sharedPreferenceSensorEditor[1].putString("Sensor "+(2)+" OUTLET"
+                +setup_SensorInitialization.SENSOR_TYPE_TAG,Integer.toString(3)).apply();
+        sharedPreferenceSensorEditor[1].putString("Sensor "+(2)+" OUTLET"
+                +setup_SensorInitialization.SENSOR_UNIT_TAG,"Omega").apply();
 
 //------------------components init-------------------------------------
         rovNameEditText = (EditText)findViewById(R.id.setup_rovNameEditText);

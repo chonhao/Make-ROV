@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,7 +22,7 @@ public class SensorInitialization extends ActionBarActivity {
     private final int SENSOR_AMOUNT = 4;
     private Spinner UIsensorInitSpinner;
     private Spinner UIsensorTypeSpinner;
-    private EditText UIsensorName, UIsensorUnit, UIsensorFormula;
+    private EditText UIsensorName, UIsensorUnit;
 
 //-------------Shared preferences init values------------------------------------
     private SharedPreferences sharedPreferences;
@@ -29,7 +30,6 @@ public class SensorInitialization extends ActionBarActivity {
     public final String SENSOR_PREFERENCE_TAG = "sensor-preference-tag";
     public final String SENSOR_TYPE_TAG = "sensor-type-tag";
     public final String SENSOR_UNIT_TAG = "sensor-unit-tag";
-    public final String SENSOR_FORMULA_TAG = "sensor-formula-tag";
 //-------------other values------------------------------------
     public String[] SENSOR_SELECTION;
 
@@ -40,7 +40,7 @@ public class SensorInitialization extends ActionBarActivity {
             "Other",
     };
 //-------------Current selection---------------------------------
-    private String currentName, currentUnit, currentFormula;
+    private String currentName, currentUnit;
     private int currentType = 0;
     private int currentSelected = 0;
     @Override
@@ -75,7 +75,8 @@ public class SensorInitialization extends ActionBarActivity {
 
         UIsensorName = (EditText)findViewById(R.id.sensorNameEditText);
         UIsensorUnit = (EditText)findViewById(R.id.sensorUnitEditText);
-        UIsensorFormula = (EditText)findViewById(R.id.sensorFormulaEditText);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 //------------------Shared Preference Init---------------------------------------
 
         for(int i=0;i<tempSensorNum;i++){
@@ -98,8 +99,7 @@ public class SensorInitialization extends ActionBarActivity {
                 currentUnit = sharedPreferencesSensor[position].getString(SENSOR_SELECTION[position]+SENSOR_UNIT_TAG,"");
                 UIsensorUnit.setText(currentUnit);
 
-                currentFormula = sharedPreferencesSensor[position].getString(SENSOR_SELECTION[position]+SENSOR_FORMULA_TAG,"");
-                UIsensorFormula.setText(currentFormula);
+
 
             }
             @Override
@@ -160,23 +160,7 @@ public class SensorInitialization extends ActionBarActivity {
 
             }
         });
-        UIsensorFormula.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                currentFormula = UIsensorFormula.getText().toString();
-                SharedPreferences.Editor editor = sharedPreferencesSensor[currentSelected].edit();
-                editor.putString(SENSOR_SELECTION[currentSelected]+SENSOR_FORMULA_TAG,currentFormula);
-                editor.apply();
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
     }
 

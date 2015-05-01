@@ -106,26 +106,24 @@
                     android:hint="Sensor Unit"
                     android:id="@+id/sensorUnitEditText" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="Formula"
-                    android:textColor="@color/accentColor"
-                    android:layout_gravity="bottom" />
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="16dp"-->
+                    <!--android:layout_marginRight="16dp"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:singleLine="true"-->
+                    <!--android:text="Formula"-->
+                    <!--android:textColor="@color/accentColor"-->
+                    <!--android:layout_gravity="bottom" />-->
 
-                <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:hint="Formula"
-                    android:id="@+id/sensorFormulaEditText" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"/>
+                <!--<EditText-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_margin="16dp"-->
+                    <!--android:hint="Formula"-->
+                    <!--android:id="@+id/sensorFormulaEditText" />-->
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

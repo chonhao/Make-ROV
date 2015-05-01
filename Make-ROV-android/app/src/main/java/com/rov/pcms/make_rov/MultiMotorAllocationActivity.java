@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,7 +88,13 @@ public class MultiMotorAllocationActivity extends ActionBarActivity {
             Toast.makeText(this,"Devices under Android Kitkat do not support External Storage. Files will be written to Internal Storage",Toast.LENGTH_LONG).show();
             extFile = Environment.getExternalStorageDirectory();
         }
-        absPath = extFile.getAbsolutePath();
+        try {
+            absPath = extFile.getAbsolutePath();
+        }catch(NullPointerException e){
+            Log.i("Get Path error", "System can't ensure if external path exists");
+            extFile = Environment.getExternalStorageDirectory();
+            absPath = extFile.getAbsolutePath();
+        }
 //--------------------Component listeners-------------------------------------
         setTemplateProfiles.setOnClickListener(new View.OnClickListener() {
             @Override

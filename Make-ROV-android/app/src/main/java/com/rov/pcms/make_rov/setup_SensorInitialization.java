@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -24,16 +26,16 @@ public class setup_SensorInitialization extends ActionBarActivity {
     private final int SENSOR_AMOUNT = 4;
     private Spinner UIsensorInitSpinner;
     private Spinner UIsensorTypeSpinner;
-    private EditText UIsensorName, UIsensorUnit, UIsensorFormula;
+    private EditText UIsensorName, UIsensorUnit /*, UIsensorFormula*/;
     private static FloatingActionButton previousFab;
     private static FloatingActionButton nextFab;
     //-------------Shared preferences init values------------------------------------
     private SharedPreferences sharedPreferences;
     private SharedPreferences[] sharedPreferencesSensor = new SharedPreferences[5];
     public final String SENSOR_PREFERENCE_TAG = "sensor-preference-tag";
-    public final String SENSOR_TYPE_TAG = "sensor-type-tag";
-    public final String SENSOR_UNIT_TAG = "sensor-unit-tag";
-    public final String SENSOR_FORMULA_TAG = "sensor-formula-tag";
+    public final static String SENSOR_TYPE_TAG = "sensor-type-tag";
+    public final static String SENSOR_UNIT_TAG = "sensor-unit-tag";
+//    public final String SENSOR_FORMULA_TAG = "sensor-formula-tag";
     //-------------other values------------------------------------
     public String[] SENSOR_SELECTION;
 
@@ -85,9 +87,11 @@ public class setup_SensorInitialization extends ActionBarActivity {
 
         UIsensorName = (EditText)findViewById(R.id.sensorNameEditText);
         UIsensorUnit = (EditText)findViewById(R.id.sensorUnitEditText);
-        UIsensorFormula = (EditText)findViewById(R.id.sensorFormulaEditText);
+//        UIsensorFormula = (EditText)findViewById(R.id.sensorFormulaEditText);
         nextFab = (FloatingActionButton)findViewById(R.id.nextFab);
         previousFab = (FloatingActionButton)findViewById(R.id.previousFab);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 //------------------Shared Preference Init---------------------------------------
         for(int i=0;i<tempSensorNum;i++){
             SENSOR_SELECTION[i] = "Sensor "+(i+1)+" OUTLET";
@@ -107,9 +111,10 @@ public class setup_SensorInitialization extends ActionBarActivity {
 
                 currentUnit = sharedPreferencesSensor[position].getString(SENSOR_SELECTION[position]+SENSOR_UNIT_TAG,"");
                 UIsensorUnit.setText(currentUnit);
+                Log.i("currentUnit",currentUnit);
 
-                currentFormula = sharedPreferencesSensor[position].getString(SENSOR_SELECTION[position]+SENSOR_FORMULA_TAG,"");
-                UIsensorFormula.setText(currentFormula);
+//                currentFormula = sharedPreferencesSensor[position].getString(SENSOR_SELECTION[position]+SENSOR_FORMULA_TAG,"");
+//                UIsensorFormula.setText(currentFormula);
 
             }
             @Override
@@ -186,23 +191,23 @@ public class setup_SensorInitialization extends ActionBarActivity {
 
             }
         });
-        UIsensorFormula.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                currentFormula = UIsensorFormula.getText().toString();
-                SharedPreferences.Editor editor = sharedPreferencesSensor[currentSelected].edit();
-                editor.putString(SENSOR_SELECTION[currentSelected]+SENSOR_FORMULA_TAG,currentFormula);
-                editor.apply();
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+//        UIsensorFormula.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                currentFormula = UIsensorFormula.getText().toString();
+//                SharedPreferences.Editor editor = sharedPreferencesSensor[currentSelected].edit();
+//                editor.putString(SENSOR_SELECTION[currentSelected]+SENSOR_FORMULA_TAG,currentFormula);
+//                editor.apply();
+//            }
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
     }
 
