@@ -39,7 +39,7 @@ public class setup_SensorInitialization extends ActionBarActivity {
     //-------------other values------------------------------------
     public String[] SENSOR_SELECTION;
 
-    public String[] SENSOR_TYPE ={
+    public static String[] SENSOR_TYPE ={
             "Select One...",
             "Temperature Sensor", "Resistance Sensor",
             "Other",
@@ -138,10 +138,8 @@ public class setup_SensorInitialization extends ActionBarActivity {
         nextFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences sharedPreferences1 = getSharedPreferences(BasicInformationActivity.ROV_BASIC_INFORMATION,MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences1.edit();
-                editor.putString(BasicInformationActivity.FIRST_TIME_SETUP,"false").apply();
-                startActivity(new Intent(setup_SensorInitialization.this,SensorMoitor.class));
+                startActivity(new Intent(setup_SensorInitialization.this,setup_MultiMotorAllocationActivity.class));
+                overridePendingTransition(R.anim.left_to_right,R.anim.right_to_left);
             }
         });
         UIsensorName.addTextChangedListener(new TextWatcher() {

@@ -52,54 +52,54 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1.2">
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp">
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:text="Number of Motors"
-                    android:textSize="18dp"
-                    android:layout_weight="30"
-                    android:gravity="center_vertical|center_horizontal"/>
+        <!--<LinearLayout-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_weight="1.2">-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:layout_marginLeft="24dp"-->
+                <!--android:layout_marginRight="24dp">-->
+                <!--<TextView-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:text="Number of Motors"-->
+                    <!--android:textSize="18dp"-->
+                    <!--android:layout_weight="30"-->
+                    <!--android:gravity="center_vertical|center_horizontal"/>-->
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="-"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:id="@+id/motorMinus"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_weight="0.000001"
-                    android:id="@+id/motorNumTextView"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="+"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:id="@+id/motorPlus"/>
-            </LinearLayout>
+                <!--<Button-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="6"-->
+                    <!--android:text="-"-->
+                    <!--style="?android:attr/borderlessButtonStyle"-->
+                    <!--android:textColor="@android:color/holo_blue_dark"-->
+                    <!--android:id="@+id/motorMinus"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="0"-->
+                    <!--android:layout_marginRight="12dp"-->
+                    <!--android:layout_marginLeft="12dp"-->
+                    <!--android:layout_weight="0.000001"-->
+                    <!--android:id="@+id/motorNumTextView"/>-->
+                <!--<Button-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="6"-->
+                    <!--android:text="+"-->
+                    <!--style="?android:attr/borderlessButtonStyle"-->
+                    <!--android:textColor="@android:color/holo_blue_dark"-->
+                    <!--android:id="@+id/motorPlus"/>-->
+            <!--</LinearLayout>-->
 
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

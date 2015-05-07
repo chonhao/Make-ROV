@@ -63,17 +63,21 @@ public class MultiMotorAllocationActivity extends ActionBarActivity {
 
 //--------------------Additional setup----------------------------------------
         TextSliderView textSliderViewDelphinus = new TextSliderView(this);
-        textSliderViewDelphinus.description("Delphinus (2nd generation)")
-                      .image(R.drawable.delphinus);
+        textSliderViewDelphinus.description("Make-ROV (5 Thrusters)")
+                      .image(R.drawable.delphinus_make_rov);
         TextSliderView textSliderViewCtenophora = new TextSliderView(this);
-        textSliderViewCtenophora.description("Ctenophora (3rd generation)")
-                       .image(R.drawable.ctenophora);
+        textSliderViewCtenophora.description("Make-ROV (6 Thrusters)")
+                       .image(R.drawable.eagleray6_make_rov);
         TextSliderView textSliderViewEagleRay = new TextSliderView(this);
-        textSliderViewEagleRay.description("Eagle Ray (1st generation)")
-                .image(R.drawable.eagle_ray);
+        textSliderViewEagleRay.description("Make-ROV (7 Thrusters)")
+                .image(R.drawable.eagleray7_make_rov);
+        TextSliderView textSliderViewMk_ROV = new TextSliderView(this);
+        textSliderViewMk_ROV.description("Make-ROV (Current)")
+                .image(R.drawable.make_rov);
         sliderShow.addSlider(textSliderViewEagleRay);
         sliderShow.addSlider(textSliderViewDelphinus);
         sliderShow.addSlider(textSliderViewCtenophora);
+        sliderShow.addSlider(textSliderViewMk_ROV);
         sliderShow.stopAutoCycle();
         sliderShow.setDuration(0);
 
@@ -107,8 +111,11 @@ public class MultiMotorAllocationActivity extends ActionBarActivity {
                     case 1:
                         loadDefaults(getString(R.string.delphinus));
                         break;
-                    default:
+                    case 2:
                         loadDefaults(getString(R.string.ctenophora));
+                        break;
+                    case 3:
+                        loadDefaults(getString(R.string.makeRov));
                         break;
                 }
 
@@ -124,30 +131,43 @@ public class MultiMotorAllocationActivity extends ActionBarActivity {
         try {
             f = new FileOutputStream(file);
             pw = new PrintWriter(f);
+            final int MOTORS_AMOUNT = 6;
             if(defaultName.equals(getString(R.string.eagleRay))){
-                pw.println(Integer.toString(EditMotorAllocationProfiles.MOTORS_AMOUNT));
-                pw.println("11220000");
-                pw.println("22110000");
-                pw.println("12210000");
-                pw.println("21120000");
-                pw.println("00001100");
-                pw.println("00002200");
+                pw.println(Integer.toString(MOTORS_AMOUNT));
+                pw.println("002211");
+                pw.println("110202");
+                pw.println("112020");
+                pw.println("022011");
+//                pw.println("200211");
+//                pw.println("111100");
+                pw.println("111111");
             }else if(defaultName.equals(getString(R.string.delphinus))){
-                pw.println(Integer.toString(EditMotorAllocationProfiles.MOTORS_AMOUNT));
-                pw.println("11000000");
-                pw.println("22000000");
-                pw.println("12001000");
-                pw.println("21002000");
-                pw.println("00110000");
-                pw.println("00220000");
+                pw.println(Integer.toString(MOTORS_AMOUNT));
+                pw.println("001111");
+                pw.println("221111");
+                pw.println("121101");
+                pw.println("201121");
+//                pw.println("110011");
+//                pw.println("110202");
+                pw.println("111111");
             }else if(defaultName.equals(getString(R.string.ctenophora))){
-                pw.println(Integer.toString(EditMotorAllocationProfiles.MOTORS_AMOUNT));
-                pw.println("11000000");
-                pw.println("22000000");
-                pw.println("12220000");
-                pw.println("21110000");
-                pw.println("00001100");
-                pw.println("00002200");
+                pw.println(Integer.toString(MOTORS_AMOUNT));
+                pw.println("001111");
+                pw.println("221111");
+                pw.println("022211");
+                pw.println("200011");
+//                pw.println("111100");
+//                pw.println("110202");
+                pw.println("111111");
+            }else if(defaultName.equals(getString(R.string.makeRov))){
+                pw.println(6);
+                pw.println("112211");
+                pw.println("110011");
+                pw.println("110202");
+                pw.println("112020");
+//                pw.println("110202");
+//                pw.println("112020");
+                pw.println("111111");
             }
             pw.flush();
             pw.close();

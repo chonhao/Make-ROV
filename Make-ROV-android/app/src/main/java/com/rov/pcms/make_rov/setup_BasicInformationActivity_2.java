@@ -17,27 +17,27 @@ import com.melnykov.fab.FloatingActionButton;
 
 public class setup_BasicInformationActivity_2 extends ActionBarActivity {
 //--------------Fixed Values----------------------------------------
-    final private int MAX_SENSOR_NUM = 4;
-    final private int MAX_OUTPUT_NUM = 8;
+    final private int MAX_SENSOR_NUM = 2;
+    final private int MAX_OUTPUT_NUM = 4;
     final private String ROV_BASIC_INFORMATION = "rov-basic-information";
-    final private String MOTOR_NUM = "motor-num";
+//    final private String MOTOR_NUM = "motor-num";
     final private String SENSOR_NUM = "sensor-num";
     final private String PAYLOAD_NUM = "payload-num";
 //--------------UI components values----------------------------------
     private static FloatingActionButton previousFab;
     private static FloatingActionButton nextFab;
 
-    private static Button motorMinus;
-    private static Button motorPlus;
+//    private static Button motorMinus;
+//    private static Button motorPlus;
     private static Button sensorMinus;
     private static Button sensorPlus;
     private static Button payloadMinus;
     private static Button payloadPlus;
-    private static TextView motorNumTextView;
+//    private static TextView motorNumTextView;
     private static TextView sensorNumTextView;
     private static TextView payloadNumTextView;
 //------------------Other Values-----------------------------------
-    private static int motorNum = 0;
+//    private static int motorNum = 0;
     private static int sensorNum = 0;
     private static int payloadNum = 0;
 
@@ -55,18 +55,18 @@ public class setup_BasicInformationActivity_2 extends ActionBarActivity {
         nextFab = (FloatingActionButton)findViewById(R.id.nextFab);
         previousFab = (FloatingActionButton)findViewById(R.id.previousFab);
 
-        motorMinus = (Button)findViewById(R.id.motorMinus);
-        motorPlus = (Button)findViewById(R.id.motorPlus);
+//        motorMinus = (Button)findViewById(R.id.motorMinus);
+//        motorPlus = (Button)findViewById(R.id.motorPlus);
         sensorMinus = (Button)findViewById(R.id.sensorMinus);
         sensorPlus = (Button)findViewById(R.id.sensorPlus);
         payloadMinus = (Button)findViewById(R.id.payloadMinus);
         payloadPlus = (Button)findViewById(R.id.payloadPlus);
-        motorNumTextView = (TextView)findViewById(R.id.motorNumTextView);
+//        motorNumTextView = (TextView)findViewById(R.id.motorNumTextView);
         sensorNumTextView = (TextView)findViewById(R.id.sensorNumTextView);
         payloadNumTextView = (TextView)findViewById(R.id.payloadNumTextView);
 //---------------Other init-------------------------------------
         sharedPreferences = getSharedPreferences(ROV_BASIC_INFORMATION,MODE_PRIVATE);
-        motorNumTextView.setText(sharedPreferences.getString(MOTOR_NUM, "0"));
+//        motorNumTextView.setText(sharedPreferences.getString(MOTOR_NUM, "0"));
         sensorNumTextView.setText(sharedPreferences.getString(SENSOR_NUM, "0"));
         payloadNumTextView.setText(sharedPreferences.getString(PAYLOAD_NUM, "0"));
 //----------------Components listeners------------------------------
@@ -80,29 +80,29 @@ public class setup_BasicInformationActivity_2 extends ActionBarActivity {
         nextFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(setup_BasicInformationActivity_2.this,setup_MultiMotorAllocationActivity.class));
+                startActivity(new Intent(setup_BasicInformationActivity_2.this,setup_SensorInitialization.class));
                 overridePendingTransition(R.anim.left_to_right,R.anim.right_to_left);
             }
         });
         //====================motor==================================
-        motorMinus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(motorNum>0)
-                    motorNum--;
-                updateAllNumText();
-            }
-        });
-        motorPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(motorNum+payloadNum<MAX_OUTPUT_NUM)
-                    motorNum++;
-                else
-                    showMaxToast("motorAndPayload");
-                updateAllNumText();
-            }
-        });
+//        motorMinus.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(motorNum>0)
+//                    motorNum--;
+//                updateAllNumText();
+//            }
+//        });
+//        motorPlus.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(motorNum+payloadNum<MAX_OUTPUT_NUM)
+//                    motorNum++;
+//                else
+//                    showMaxToast("motorAndPayload");
+//                updateAllNumText();
+//            }
+//        });
         //===================sensor===================================
         sensorMinus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +135,7 @@ public class setup_BasicInformationActivity_2 extends ActionBarActivity {
         payloadPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(motorNum+payloadNum<MAX_OUTPUT_NUM)
+                if(0/*motorNum*/+payloadNum<MAX_OUTPUT_NUM)
                     payloadNum++;
                 else
                     showMaxToast("motorAndPayload");
@@ -176,13 +176,13 @@ public class setup_BasicInformationActivity_2 extends ActionBarActivity {
     }
 
     private void updateAllNumText(){
-        motorNumTextView.setText(Integer.toString(motorNum));
+//        motorNumTextView.setText(Integer.toString(motorNum));
         sensorNumTextView.setText(Integer.toString(sensorNum));
         payloadNumTextView.setText(Integer.toString(payloadNum));
 
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(MOTOR_NUM,Integer.toString(motorNum));
+//        editor.putString(MOTOR_NUM,Integer.toString(motorNum));
         editor.putString(SENSOR_NUM,Integer.toString(sensorNum));
         editor.putString(PAYLOAD_NUM,Integer.toString(payloadNum));
         editor.apply();

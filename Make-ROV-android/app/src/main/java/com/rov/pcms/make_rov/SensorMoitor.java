@@ -49,7 +49,7 @@ public class SensorMoitor extends ActionBarActivity {
     private TextView[] _sensorTextView = new TextView[4];
     public static ChartGraph[] sensorChart = {
             new ChartGraph(), new ChartGraph(),
-            new ChartGraph(), new ChartGraph(),
+            new ChartGraph(), new ChartGraph(),new ChartGraph(),new ChartGraph(),
     };
 
 
@@ -71,8 +71,8 @@ public class SensorMoitor extends ActionBarActivity {
     private static int currentReadMode = 0;
     private static int currentCount = 1;
     private static int currentSensor = 0;
-    private static int tempValue = 0;
-    private static int[] sensorValue = new int[5];
+    private static float tempValue = 0;
+    private static float[] sensorValue = new float[5];
     boolean stopWorker = false;
     private int selected = -1;
 
@@ -138,8 +138,12 @@ public class SensorMoitor extends ActionBarActivity {
         _sensorTextView[2] = (TextView)findViewById(R.id.sensor2name);
         _sensorTextView[3] = (TextView)findViewById(R.id.sensor3name);
         for (int i = 1; i <= 3 ; i++){
+            int temp = 1;
+//            int temp = Integer.parseInt(sharedPreferencesSensor[i].getString("Sensor "+(i)+" OUTLET"+setup_SensorInitialization.SENSOR_TYPE_TAG,"0"));
+            String temptype = setup_SensorInitialization.SENSOR_TYPE[temp];
             sharedPreferencesSensor[i] = getSharedPreferences("Sensor "+(i)+" OUTLET",MODE_PRIVATE);
-            _sensorTextView[i].setText(sharedPreferencesSensor[i].getString("Sensor "+(i)+" OUTLET","**Sensor "+i+" doesn't exists**"));
+            _sensorTextView[i].setText(sharedPreferencesSensor[i].getString("Sensor "+(i)+" OUTLET","**Sensor "+i+" doesn't exists**")
+            +" - "+temptype);
         }
 //---------------custom action starts-----------------------------
         sensorChart[1].lineChart = (LineChart) findViewById(R.id.sensor1chart);
@@ -191,8 +195,16 @@ public class SensorMoitor extends ActionBarActivity {
     protected void onResume(){
         super.onResume();
         for (int i = 1; i <= 3 ; i++){
+            int temp = Integer.parseInt(sharedPreferencesSensor[i].getString("Sensor "+(i)+" OUTLET"+setup_SensorInitialization.SENSOR_TYPE_TAG,"0"));
+            String temptype = setup_SensorInitialization.SENSOR_TYPE[temp];
             sharedPreferencesSensor[i] = getSharedPreferences("Sensor "+(i)+" OUTLET",MODE_PRIVATE);
-            _sensorTextView[i].setText(sharedPreferencesSensor[i].getString("Sensor "+(i)+" OUTLET","**Sensor "+i+" doesn't exists**"));
+            if(temp != 0) {
+                _sensorTextView[i].setText(sharedPreferencesSensor[i].getString("Sensor " + (i) + " OUTLET", "**Sensor " + i + " doesn't exists**")
+                        + " - " + temptype);
+            }else{
+                _sensorTextView[i].setText(sharedPreferencesSensor[i].getString("Sensor " + (i) + " OUTLET", "**Sensor " + i + " doesn't exists**")
+                        );
+            }
         }
     }
 
@@ -386,6 +398,7 @@ public class SensorMoitor extends ActionBarActivity {
             }
         } else if (currentReadMode == 3) {
             currentSensor = serialData - 48;
+            tempValue/=100;
             sensorValue[currentSensor] = tempValue;
             sensorChart[currentSensor].addEntry(sensorValue[currentSensor]/*(float) (Math.random() * 10)*/);
 //        sensorChart[currentSensor].lineChart.invalidate();

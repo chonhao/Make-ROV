@@ -236,9 +236,12 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
                 finish();
             else if(startActivityTAG.equals("Motor_Allocation_SETUP")){
                 //nextPage
+                SharedPreferences sharedPreferences1 = getSharedPreferences(BasicInformationActivity.ROV_BASIC_INFORMATION,MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences1.edit();
+                editor.putString(BasicInformationActivity.FIRST_TIME_SETUP,"false").apply();
+                startActivity(new Intent(EditMotorAllocationProfiles.this,SensorMoitor.class));
 
-                startActivity(new Intent(EditMotorAllocationProfiles.this,setup_SensorInitialization.class));
-                overridePendingTransition(R.anim.left_to_right,R.anim.right_to_left);
+
             }
         }
 

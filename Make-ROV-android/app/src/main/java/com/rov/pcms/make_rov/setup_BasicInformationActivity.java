@@ -130,7 +130,7 @@ public class setup_BasicInformationActivity extends ActionBarActivity {
         final String MOTOR_NUM = "motor-num";
         final String SENSOR_NUM = "sensor-num";
         final String PAYLOAD_NUM = "payload-num";
-        defaultSharedPreferencesEditor.putString(MOTOR_NUM,"6").apply();
+        defaultSharedPreferencesEditor.putString(MOTOR_NUM,"0").apply();
         defaultSharedPreferencesEditor.putString(SENSOR_NUM,"2").apply();
         defaultSharedPreferencesEditor.putString(PAYLOAD_NUM,"0").apply();
         // third page--nothing to set
@@ -149,7 +149,7 @@ public class setup_BasicInformationActivity extends ActionBarActivity {
 
         sharedPreferenceSensorEditor[1].putString("Sensor "+(2)+" OUTLET","Resistance Sensor").apply();
         sharedPreferenceSensorEditor[1].putString("Sensor "+(2)+" OUTLET"
-                +setup_SensorInitialization.SENSOR_TYPE_TAG,Integer.toString(3)).apply();
+                +setup_SensorInitialization.SENSOR_TYPE_TAG,Integer.toString(2)).apply();
         sharedPreferenceSensorEditor[1].putString("Sensor "+(2)+" OUTLET"
                 +setup_SensorInitialization.SENSOR_UNIT_TAG,"Omega").apply();
     }

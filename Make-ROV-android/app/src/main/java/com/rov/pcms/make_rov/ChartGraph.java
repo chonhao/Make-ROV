@@ -36,7 +36,7 @@ public class ChartGraph {
 //        mChart.getXAxis().setDrawGridLines(false);
 
         lineChart.invalidate();
-        addEntry(10);
+        addEntry(40);
         removeLastEntry();
     }
     public void addEntry(float value) {
@@ -74,7 +74,7 @@ public class ChartGraph {
             // redraw the chart
             lineChart.invalidate();
 
-            lineChart.setVisibleXRange(15f);
+            lineChart.setVisibleXRange(10f);
             lineChart.moveViewToX(mdata+10);
         }
     }
