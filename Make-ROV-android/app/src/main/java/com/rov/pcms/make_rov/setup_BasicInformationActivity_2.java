@@ -48,6 +48,9 @@ public class setup_BasicInformationActivity_2 extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup__basic_information_activity_2);
+//----------------early init--------------------------------------
+        SharedPreferences defalutSharedPreferences = getSharedPreferences(BasicInformationActivity.ROV_BASIC_INFORMATION,MODE_PRIVATE);
+        sensorNum = Integer.parseInt(defalutSharedPreferences.getString(SENSOR_NUM,"0"));
 //----------------UI init------------------------------------------
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar2);
         setSupportActionBar(toolbar);

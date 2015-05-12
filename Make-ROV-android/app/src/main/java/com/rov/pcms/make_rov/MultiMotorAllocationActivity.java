@@ -135,39 +135,36 @@ public class MultiMotorAllocationActivity extends ActionBarActivity {
             if(defaultName.equals(getString(R.string.eagleRay))){
                 pw.println(Integer.toString(MOTORS_AMOUNT));
                 pw.println("002211");
-                pw.println("110202");
-                pw.println("112020");
+                pw.println("220011");
                 pw.println("022011");
-//                pw.println("200211");
-//                pw.println("111100");
-                pw.println("111111");
+                pw.println("200211");
+                pw.println("111100");
+                pw.println("111122");
             }else if(defaultName.equals(getString(R.string.delphinus))){
                 pw.println(Integer.toString(MOTORS_AMOUNT));
                 pw.println("001111");
                 pw.println("221111");
                 pw.println("121101");
                 pw.println("201121");
-//                pw.println("110011");
-//                pw.println("110202");
-                pw.println("111111");
+                pw.println("110011");
+                pw.println("112211");
             }else if(defaultName.equals(getString(R.string.ctenophora))){
                 pw.println(Integer.toString(MOTORS_AMOUNT));
                 pw.println("001111");
                 pw.println("221111");
                 pw.println("022211");
                 pw.println("200011");
-//                pw.println("111100");
-//                pw.println("110202");
-                pw.println("111111");
+                pw.println("111100");
+                pw.println("111122");
             }else if(defaultName.equals(getString(R.string.makeRov))){
-                pw.println(6);
-                pw.println("112211");
-                pw.println("110011");
-                pw.println("110202");
-                pw.println("112020");
-//                pw.println("110202");
-//                pw.println("112020");
-                pw.println("111111");
+                pw.print(6);
+                pw.print("110011");
+                pw.print("112011");
+                pw.print("110101");
+                pw.print("111010");
+                pw.print("110101");
+                pw.print("111010");
+                pw.print("111111");
             }
             pw.flush();
             pw.close();

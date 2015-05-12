@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start|center_vertical"
-        android:text="  BACKWARD"
+        android:text="  RIGHT TURN"
         style="?android:attr/borderlessButtonStyle"
         />
 
@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start|center_vertical"
-        android:text="  LEFT TURN"
+        android:text="  BACKWARD"
         style="?android:attr/borderlessButtonStyle"
         />
 
@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start|center_vertical"
-        android:text="  RIGHT TURN"
+        android:text="  LEFT TURN"
         style="?android:attr/borderlessButtonStyle"
         />
 

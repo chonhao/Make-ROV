@@ -174,12 +174,14 @@ public class setup_MultiMotorAllocationActivity extends ActionBarActivity {
                 pw.println("111100");
                 pw.println("111122");
             }else if(defaultName.equals(getString(R.string.makeRov))){
-                pw.println(6);
-                pw.println("222222");
-                pw.println("111111");
-                pw.println("000000");
-                pw.println("222222");
-                pw.println("111111");
+                pw.print(6);
+                pw.print("110011");
+                pw.print("112011");
+                pw.print("110101");
+                pw.print("111010");
+                pw.print("110101");
+                pw.print("111010");
+                pw.print("111111");
             }
             pw.flush();
             pw.close();

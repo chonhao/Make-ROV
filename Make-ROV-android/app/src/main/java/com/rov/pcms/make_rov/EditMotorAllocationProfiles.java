@@ -94,17 +94,17 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
         outletStatusBtn[7] = (Button)dialog.findViewById(R.id.outlet8StatusBtn);
         dialogPoositiveBtn = (Button)dialog.findViewById(R.id.saveChangesBtn);
         dialogNegativeBtn  = (Button)dialog.findViewById(R.id.discardBtn);
-        outletStatusBtnContent[0]=0; outletStatusBtnContent[1]=0;
-        outletStatusBtnContent[2]=0; outletStatusBtnContent[3]=0;
-        outletStatusBtnContent[4]=0; outletStatusBtnContent[5]=0;
-        outletStatusBtnContent[6]=0; outletStatusBtnContent[7]=0;
-        dialogBtnLabel[0]="STOP";
-        dialogBtnLabel[1]="POSITIVE";
+        outletStatusBtnContent[0]=1; outletStatusBtnContent[1]=1;
+        outletStatusBtnContent[2]=1; outletStatusBtnContent[3]=1;
+        outletStatusBtnContent[4]=1; outletStatusBtnContent[5]=1;
+        outletStatusBtnContent[6]=1; outletStatusBtnContent[7]=1;
+        dialogBtnLabel[1]="STOP";
+        dialogBtnLabel[0]="POSITIVE";
         dialogBtnLabel[2]="NEGATIVE";
         //---------------------Dialog setup completed-------------------------------
 //--------------------Additional setup----------------------------------------
         editMovementsString = new String[]{
-            "FORWARD","BACKWARD","LEFT TURN","RIGHT TURN","UPWARD","DOWNWARD"
+            "FORWARD","RIGHT TURN","BACKWARD","LEFT TURN","UPWARD","DOWNWARD"
         };
 
         try {
@@ -114,10 +114,16 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
             Toast.makeText(this,"Can't find any External Storage. Files will be written to Internal Storage",Toast.LENGTH_LONG).show();
             extFile = Environment.getExternalStorageDirectory();
         }catch (NoSuchMethodError noSuchMethodError){
-            Toast.makeText(this,"Devices under Kitkat do not support External Storage. Files will be written to Internal Storage",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Devices under Android Kitkat do not support External Storage. Files will be written to Internal Storage",Toast.LENGTH_LONG).show();
             extFile = Environment.getExternalStorageDirectory();
         }
-        absPath = extFile.getAbsolutePath();
+        try {
+            absPath = extFile.getAbsolutePath();
+        }catch(NullPointerException e){
+            Log.i("Get Path error", "System can't ensure if external path exists");
+            extFile = Environment.getExternalStorageDirectory();
+            absPath = extFile.getAbsolutePath();
+        }
 //        if(fileList2.length == 1) {
 //            Log.d(TAG, "external device is not mounted.");
 //        } else {
@@ -133,7 +139,7 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
                 SharedPreferences editMotorPreference = getSharedPreferences(prefrenceName, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = editMotorPreference.edit();
                 editor.putString(editMovementsString[currentMovement],currentMovementString);
-                editor.commit();
+                editor.apply();
                 dialog.dismiss();
 //              -----------debug-------------------
 //                Log.i(editMovementsString[currentMovement], currentMovementString);
@@ -168,7 +174,7 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     SharedPreferences sharedPreferences = getSharedPreferences(prefrenceName,MODE_PRIVATE);
-                    String getSavedContentString = sharedPreferences.getString(editMovementsString[temp_n],"[0, 0, 0, 0, 0, 0, 0, 0]");
+                    String getSavedContentString = sharedPreferences.getString(editMovementsString[temp_n],"[1, 1, 1, 1, 1, 1, 1, 1]");
                     String[] savedContentStringSplitted = getSavedContentString.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ","").split(",");
                     int[] savedcontentSplitted = new int[savedContentStringSplitted.length];
                     for (int i = 0; i < savedContentStringSplitted.length; i++) {
@@ -217,12 +223,15 @@ public class EditMotorAllocationProfiles extends ActionBarActivity {
             try {
                 f = new FileOutputStream(file);
                 pw = new PrintWriter(f);
-                pw.println(Integer.toString(MOTORS_AMOUNT));
+                pw.print(Integer.toString(MOTORS_AMOUNT));
                 for(int i=0;i<MOTORS_MOVEMENTS_AMOUNT;i++){
                     final int tempi = i;
-//                    Log.i("export " + tempi, sharedPreferences.getString(editMovementsString[tempi], "[0, 0, 0, 0, 0, 0, 0, 0]"));
-                    pw.println(sharedPreferences.getString(editMovementsString[tempi], "[0, 0, 0, 0, 0, 0, 0, 0]").replace("[","")
-                            .replace("]","").replace(" ","").replace(",",""));
+//                    Log.i("export " + tempi, sharedPreferences.getString(editMovementsString[tempi], "[1, 1, 1, 1, 1, 1, 1, 1]"));
+                    pw.print(sharedPreferences.getString(editMovementsString[tempi], "[1, 1, 1, 1, 1, 1, 1, 1]").replace("[", "")
+                            .replace("]", "").replace(" ", "").replace(",", ""));
+                }
+                for(int i=0;i<8;i++) {
+                    pw.print("1");
                 }
                 pw.flush();
                 pw.close();
